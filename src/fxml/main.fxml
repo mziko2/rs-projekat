@@ -31,11 +31,6 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
-          <Tab text="Stanje">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
           <Tab text="Proizvod">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -110,20 +105,20 @@
                           </rowConstraints>
                            <children>
                               <Label prefHeight="71.0" prefWidth="146.0" text="Pretraga:" />
-                              <TextField prefHeight="63.0" prefWidth="164.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="tfPretragaProstor" prefHeight="63.0" prefWidth="164.0" GridPane.columnIndex="1" />
                               <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
                                 <buttons>
-                                  <Button mnemonicParsing="false" text="Dodaj" />
-                                    <Button mnemonicParsing="false" text="Uredi" />
-                                    <Button mnemonicParsing="false" text="Obriši" />
+                                  <Button fx:id="btnDodajProstor" mnemonicParsing="false" onAction="#dodajProstor" text="Dodaj" />
+                                    <Button fx:id="btnUrediProstor" mnemonicParsing="false" onAction="#urediProstor" text="Uredi" />
+                                    <Button fx:id="btnObrisiProstor" mnemonicParsing="false" onAction="#obrisiProstor" text="Obriši" />
                                 </buttons>
                               </ButtonBar>
-                              <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4">
+                              <TableView fx:id="tvProstor" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="ID" />
-                                  <TableColumn prefWidth="208.1999969482422" text="Naziv" />
-                                    <TableColumn prefWidth="114.20001220703125" text="Lokacija" />
-                                    <TableColumn prefWidth="200.80001831054688" text="Opis" />
+                                  <TableColumn fx:id="tbProstorId" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="tbProstorNaziv" prefWidth="208.1999969482422" text="Naziv" />
+                                    <TableColumn fx:id="tbProstorLokacija" prefWidth="114.20001220703125" text="Lokacija" />
+                                    <TableColumn fx:id="tbProstorOpis" prefWidth="200.80001831054688" text="Opis" />
                                 </columns>
                               </TableView>
                            </children>
@@ -151,17 +146,17 @@
                            <children>
                               <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1">
                                 <buttons>
-                                  <Button mnemonicParsing="false" text="Dodaj" />
-                                    <Button mnemonicParsing="false" text="Uredi" />
+                                  <Button fx:id="btnDodajNarudzba" mnemonicParsing="false" onAction="#dodajNarudzba" text="Dodaj" />
+                                    <Button fx:id="btnUrediNarudzba" mnemonicParsing="false" onAction="#urediNarduzba" text="Uredi" />
                                 </buttons>
                               </ButtonBar>
-                              <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                              <TableView fx:id="tvNarudzba" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="3">
                                 <columns>
-                                  <TableColumn prefWidth="34.19998246431351" text="ID" />
-                                  <TableColumn prefWidth="143.40002059936523" text="Kategorija" />
-                                  <TableColumn prefWidth="89.39996337890625" text="Vrsta" />
-                                    <TableColumn prefWidth="94.60005187988281" text="Datum" />
-                                    <TableColumn prefWidth="239.4000244140625" text="Opis" />
+                                  <TableColumn fx:id="tbNarudzbaId" prefWidth="34.19998246431351" text="ID" />
+                                  <TableColumn fx:id="tbNarudzbaKategorija" prefWidth="143.40002059936523" text="Kategorija" />
+                                  <TableColumn fx:id="tbNarudzbaVrsta" prefWidth="89.39996337890625" text="Vrsta" />
+                                    <TableColumn fx:id="tbNarudzbaDatum" prefWidth="94.60005187988281" text="Datum" />
+                                    <TableColumn fx:id="tbNarudzbaOpis" prefWidth="239.4000244140625" text="Opis" />
                                 </columns>
                               </TableView>
                            </children>

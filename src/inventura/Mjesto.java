@@ -1,6 +1,6 @@
 package inventura;
 
-public class mjesto {
+public class Mjesto {
     int id;
     String naziv;
     String lokacija;

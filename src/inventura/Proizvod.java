@@ -2,7 +2,7 @@ package inventura;
 
 import java.util.Date;
 
-public class proizvod {
+public class Proizvod {
     int id;
     String naziv;
     String kategorija;
