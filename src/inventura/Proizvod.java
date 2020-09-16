@@ -7,9 +7,20 @@ public class Proizvod {
     String naziv;
     String kategorija;
     String mjesto;
-    Date datum;
+    String datum;
     int mjesto_id;
 
+    public Proizvod(int id, String naziv, String kategorija, String datum, String mjesto, int mjesto_id) {
+        this.id=id;
+        this.naziv=naziv;
+        this.kategorija=kategorija;
+        this.datum=datum;
+        this.mjesto=mjesto;
+        this.mjesto_id=mjesto_id;
+    }
+    public Proizvod() {
+
+    }
     public String getMjesto() {
         return mjesto;
     }
@@ -62,11 +73,11 @@ public class Proizvod {
 
    
 
-    public Date getDatum() {
+    public String getDatum() {
         return datum;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(String datum) {
         this.datum = datum;
     }
 }

@@ -1,15 +1,30 @@
 package inventura;
 
-import java.util.Date;
+
+
 
 public class Narudzba {
     int id;
-    String kategorija;
+    String proizvod;
     String vrsta;
     String opis;
-    Date datum;
+    String datum;
     int proizvod_id;
     int mjesto_id;
+
+    public Narudzba(int id, String proizvod, String vrsta, String opis, String datum, int proizvod_id, int mjesto_id) {
+        this.id=id;
+        this.proizvod=proizvod;
+        this.vrsta=vrsta;
+        this.opis=opis;
+        this.datum=datum;
+        this.proizvod_id=proizvod_id;
+        this.mjesto_id=mjesto_id;
+    }
+
+    public Narudzba() {
+
+    }
 
     public int getId() {
         return id;
@@ -19,12 +34,12 @@ public class Narudzba {
         this.id = id;
     }
 
-    public String getKategorija() {
-        return kategorija;
+    public String getProizvod() {
+        return proizvod;
     }
 
-    public void setKategorija(String kategorija) {
-        this.kategorija = kategorija;
+    public void setProizvod(String proizvod) {
+        this.proizvod = proizvod;
     }
 
     public String getVrsta() {
@@ -43,11 +58,11 @@ public class Narudzba {
         this.opis = opis;
     }
 
-    public Date getDatum() {
+    public String getDatum() {
         return datum;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(String datum) {
         this.datum = datum;
     }
 
