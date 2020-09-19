@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventura.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventura.Controller">
    <children>
       <GridPane layoutX="14.0" layoutY="14.0" prefHeight="494.0" prefWidth="743.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -166,7 +166,7 @@
                                     <TableView fx:id="tvNarudzba" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="3">
                                       <columns>
                                         <TableColumn fx:id="tbNarudzbaId" prefWidth="34.19998246431351" text="ID" />
-                                        <TableColumn fx:id="tbNarudzbaKategorija" prefWidth="143.40002059936523" text="Kategorija" />
+                                        <TableColumn fx:id="tbNarudzbaProizvod" prefWidth="143.40002059936523" text="Proizvod" />
                                         <TableColumn fx:id="tbNarudzbaVrsta" prefWidth="89.39996337890625" text="Vrsta" />
                                           <TableColumn fx:id="tbNarudzbaDatum" prefWidth="94.60005187988281" text="Datum" />
                                           <TableColumn fx:id="tbNarudzbaOpis" prefWidth="239.4000244140625" text="Opis" />

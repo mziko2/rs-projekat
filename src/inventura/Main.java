@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Method;
+
 public class Main extends Application {
 
     @Override
@@ -15,6 +17,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 750, 500));
         primaryStage.setResizable(true);
         primaryStage.show();
+
+
     }
 
 

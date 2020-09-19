@@ -3,6 +3,7 @@ package inventura;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InventuraDAO {
@@ -11,7 +12,8 @@ public class InventuraDAO {
 
     //Nazivi upita
     private PreparedStatement dajMjesto, dajNarudzbu, dajProizvod, obrisiMjesto, obrisiNarudzbu, obrisiProizvod,
-    nadjiMjesto, nadjiNarudzbu, nadjiProizvod;
+    nadjiMjesto, nadjiNarudzbu, nadjiProizvod, dodajMjesto, dodajNarudzbu, dodajProizvod, odrediIdMjesta, odrediIdProizvoda,
+    odrediIdNarudzbe, izmjeniMjesto, izmjeniProizvod, izmjeniNarudzbu, dajMjesta, dajNarudzbe, dajProizvode, dajKategorijuProizvoda;
 
 
 
@@ -23,7 +25,7 @@ public class InventuraDAO {
     private  InventuraDAO(){
         //Konekcija baze
         try{
-            conn=DriverManager.getConnection("jdbc:sqlite:C:/Users/ASUS/IdeaProjects/rs-projekat/src/database/inventura");
+            conn=DriverManager.getConnection("jdbc:sqlite:C:/Users/ASUS/IdeaProjects/rs-projekat/src/database/inventura.db.sql");
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -42,13 +44,32 @@ public class InventuraDAO {
         try{
             dajMjesto=conn.prepareStatement("Select * from mjesto where id=?");
             dajProizvod=conn.prepareStatement("Select * from proizvod where id=?");
+
             obrisiMjesto=conn.prepareStatement("DELETE from mjesto where id=?");
             obrisiNarudzbu=conn.prepareStatement("Delete from narudzba where id=?");
             obrisiProizvod=conn.prepareStatement("Delete from proizvod where id=?");
+
             nadjiMjesto=conn.prepareStatement("Select * from mjesto where naziv=?");
-            //nadjiNarudzbu=conn.prepareStatement("select * from narudzba where opis=?");
+            nadjiNarudzbu=conn.prepareStatement("select * from narudzba where opis=?");
             nadjiProizvod=conn.prepareStatement("Select * from proizvod where naziv=?");
 
+            dodajMjesto=conn.prepareStatement("insert into mjesto values(?,?,?,?)");
+            dodajNarudzbu=conn.prepareStatement("insert into narudzba values(?,?,?,?,?,?,?)");
+            dodajProizvod=conn.prepareStatement("insert into proizvod values(?,?,?,?,?,?)");
+
+            odrediIdMjesta=conn.prepareStatement("select MAX(id)+1 from mjesto");
+            odrediIdProizvoda=conn.prepareStatement("select max(id)+1 from proizvod");
+            odrediIdNarudzbe=conn.prepareStatement("select max(id)+1 from narudzba");
+
+            izmjeniMjesto=conn.prepareStatement("update mjesto set naziv=?, lokacija=?, opis=? where id=?");
+            izmjeniNarudzbu=conn.prepareStatement("update narudzba set proizvod=?, vrsta=?, opis=?, datum=?, proizvod_id=?, mjesto_id=? where id=?");
+            izmjeniProizvod=conn.prepareStatement("update proizvod set naziv=?, kategorija=?, datum=?, mjesto=?, mjesto_id=? where id=?");
+
+            dajMjesta=conn.prepareStatement("select * from mjesto order by naziv");
+            dajProizvode=conn.prepareStatement("select * from proizvod order by id");
+            dajNarudzbu=conn.prepareStatement("select * from narudzba");
+
+            dajKategorijuProizvoda=conn.prepareStatement("select kategorija from proizvod");
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -72,7 +93,7 @@ public class InventuraDAO {
     private void regenerisiBazu() {
         Scanner ulaz = null;
         try {
-            ulaz = new Scanner(new FileInputStream("inventura.db"));
+            ulaz = new Scanner(new FileInputStream("inventura.db.sql"));
             String sqlUpit = "";
             while (ulaz.hasNext()) {
                 sqlUpit += ulaz.nextLine();
@@ -168,7 +189,161 @@ public class InventuraDAO {
         }
     }
 
+    public void dodajMjesto(Mjesto mjesto){
+        try{
+           ResultSet rs = odrediIdMjesta.executeQuery();
+           int id=1;
+           if(rs.next()) id=rs.getInt(1);
 
+           dodajMjesto.setInt(1,id);
+           dodajMjesto.setString(2,mjesto.getNaziv());
+           dodajMjesto.setString(3,mjesto.getLokacija());
+           dodajMjesto.setString(4,mjesto.getOpis());
+           dodajMjesto.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void dodajProizvod(Proizvod proizvod){
+        try{
+            ResultSet rs = odrediIdProizvoda.executeQuery();
+            int id=1;
+            if(rs.next()) id=rs.getInt(1);
+
+            dodajProizvod.setInt(1,id);
+            dodajProizvod.setString(2,proizvod.getNaziv());
+            dodajProizvod.setString(3,proizvod.getKategorija());
+            dodajProizvod.setString(4,proizvod.getDatum());
+            dodajProizvod.setString(5,proizvod.getMjesto());
+            dodajProizvod.setInt(6,proizvod.getMjesto_id());
+            dodajProizvod.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void dodajNarudzbu(Narudzba narudzba){
+        try{
+            ResultSet rs = odrediIdNarudzbe.executeQuery();
+            int id=1;
+            if(rs.next()) id=rs.getInt(1);
+
+            dodajNarudzbu.setInt(1,id);
+            dodajNarudzbu.setString(2,narudzba.getProizvod());
+            dodajNarudzbu.setString(3,narudzba.getVrsta());
+            dodajNarudzbu.setString(4,narudzba.getOpis());
+            dodajNarudzbu.setString(5,narudzba.getDatum());
+            dodajNarudzbu.setInt(6,narudzba.getProizvod_id());
+            dodajNarudzbu.setInt(7,narudzba.getMjesto_id());
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void izmjeniMjesto(Mjesto mjesto){
+        try{
+            izmjeniMjesto.setString(1,mjesto.getNaziv());
+            izmjeniMjesto.setString(2,mjesto.getLokacija());
+            izmjeniMjesto.setString(3,mjesto.getOpis());
+            izmjeniMjesto.setInt(4,mjesto.getId());
+            izmjeniMjesto.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void izmjeniNarudzbu(Narudzba narudzba){
+        try{
+            izmjeniNarudzbu.setString(1,narudzba.getProizvod());
+            izmjeniNarudzbu.setString(2,narudzba.getVrsta());
+            izmjeniNarudzbu.setString(3,narudzba.getOpis());
+            izmjeniNarudzbu.setString(4,narudzba.getDatum());
+            izmjeniNarudzbu.setInt(5,narudzba.getProizvod_id());
+            izmjeniNarudzbu.setInt(6,narudzba.getMjesto_id());
+            izmjeniNarudzbu.setInt(7,narudzba.getId());
+            izmjeniNarudzbu.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void izmjeniProizvod(Proizvod proizvod){
+        try{
+            izmjeniProizvod.setString(1,proizvod.getNaziv());
+            izmjeniProizvod.setString(2,proizvod.getKategorija());
+            izmjeniProizvod.setString(3,proizvod.getDatum());
+            izmjeniProizvod.setString(4,proizvod.getMjesto());
+            izmjeniProizvod.setInt(5,proizvod.getMjesto_id());
+            izmjeniProizvod.setInt(6,proizvod.getId());
+            izmjeniProizvod.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Mjesto> mjesta(){
+        ArrayList<Mjesto> mjesta = new ArrayList<Mjesto>();
+        try{
+            ResultSet rs = dajMjesta.executeQuery();
+            while(rs.next()){
+                Mjesto mjesto = dajMjestoIzRs(rs);
+                mjesta.add(mjesto);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return mjesta;
+    }
+
+    public ArrayList<Narudzba> narudzbe(){
+        ArrayList<Narudzba> narudzbe = new ArrayList<Narudzba>();
+        try{
+            ResultSet rs = dajNarudzbu.executeQuery();
+            while(rs.next()){
+                Narudzba narudzba = dajNarudzbuIzRs(rs);
+                narudzbe.add(narudzba);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return narudzbe;
+    }
+
+    public ArrayList<Proizvod> proizvodi(){
+        ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
+        try{
+            ResultSet rs = dajProizvode.executeQuery();
+            while(rs.next()){
+                Proizvod proizvod = dajProizvodIzRs(rs);
+                proizvodi.add(proizvod);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return proizvodi;
+    }
+    public int dajIdMjesta(String mjesto){
+        try{
+            nadjiMjesto.setString(1,mjesto);
+            ResultSet rs = nadjiMjesto.executeQuery();
+            return (rs.getInt(1));
+        }catch (SQLException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public ArrayList<String> dajKategorijeProizvoda(){
+        ArrayList<String> rezultat = new ArrayList<String>();
+        try{
+            ResultSet rs = dajKategorijuProizvoda.executeQuery();
+            while(rs.next()){
+                rezultat.add(rs.getString(1));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return  rezultat;
+    }
 
 
 
