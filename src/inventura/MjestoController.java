@@ -26,6 +26,39 @@ public class MjestoController implements Initializable {
     }
 
     public void potrdiMjesto(ActionEvent actionEvent) {
+        //nisam mogao napraviti da radi preko .getStyleClass() sa add i removeAll tako da sam morao napraviti direktno preko .setStyle(), nadam se da nije problem;
+        boolean collor =true;
+        if(tfMjestoOpis.getText().trim().isEmpty()){
+            tfMjestoOpis.getStyleClass().removeAll("poljeIspravno");
+            tfMjestoOpis.getStyleClass().add("PoljeNijeIspravno");
+            tfMjestoOpis.setStyle("-fx-control-inner-background: lightpink;");
+            collor=false;
+        }else{
+            tfMjestoOpis.getStyleClass().removeAll("poljeNijeIspravno");
+            tfMjestoOpis.getStyleClass().add("poljeIspravno");
+            tfMjestoOpis.setStyle("-fx-control-inner-background: greenyellow;");
+        }
+        if(tfMjestoLokacija.getText().trim().isEmpty()){
+            tfMjestoLokacija.getStyleClass().removeAll("poljeIspravno");
+            tfMjestoLokacija.getStyleClass().add("PoljeNijeIspravno");
+            tfMjestoLokacija.setStyle("-fx-control-inner-background: lightpink;");
+            collor=false;
+        }else{
+            tfMjestoLokacija.getStyleClass().removeAll("poljeNijeIspravno");
+            tfMjestoLokacija.getStyleClass().add("poljeIspravno");
+            tfMjestoLokacija.setStyle("-fx-control-inner-background: greenyellow;");
+        }
+        if(tfMjestoNaziv.getText().trim().isEmpty()){
+            tfMjestoNaziv.getStyleClass().removeAll("poljeIspravno");
+            tfMjestoNaziv.getStyleClass().add("PoljeNijeIspravno");
+            tfMjestoNaziv.setStyle("-fx-control-inner-background: lightpink;");
+            collor=false;
+        }else{
+            tfMjestoNaziv.getStyleClass().removeAll("poljeNijeIspravno");
+            tfMjestoNaziv.getStyleClass().add("poljeIspravno");
+            tfMjestoNaziv.setStyle("-fx-control-inner-background: greenyellow;");
+        }
+        if(!collor) return;
         if(mjesto==null) mjesto = new Mjesto();
         mjesto.setNaziv(tfMjestoNaziv.getText());
         mjesto.setOpis(tfMjestoOpis.getText());

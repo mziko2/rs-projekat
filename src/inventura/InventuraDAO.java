@@ -248,6 +248,7 @@ public class InventuraDAO {
             dodajNarudzbu.setString(5,narudzba.getDatum());
             dodajNarudzbu.setInt(6,narudzba.getProizvod_id());
             dodajNarudzbu.setInt(7,narudzba.getMjesto_id());
+            dodajNarudzbu.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
         }

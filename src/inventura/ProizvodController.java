@@ -42,6 +42,19 @@ public class ProizvodController implements Initializable {
     public Proizvod getProizvod() { return  proizvod; }
 
     public void potvrdiProizvod(ActionEvent actionEvent) {
+        //nisam mogao napraviti da radi preko .getStyleClass() sa add i removeAll tako da sam morao napraviti direktno preko .setStyle(), nadam se da nije problem;
+        boolean collor=true;
+        if(tfNazivProizvod.getText().trim().isEmpty()){
+            tfNazivProizvod.getStyleClass().removeAll("poljeIspravno");
+            tfNazivProizvod.getStyleClass().add("PoljeNijeIspravno");
+            tfNazivProizvod.setStyle("-fx-control-inner-background: lightpink;");
+            collor=false;
+        }else{
+            tfNazivProizvod.getStyleClass().removeAll("poljeNijeIspravno");
+            tfNazivProizvod.getStyleClass().add("poljeIspravno");
+            tfNazivProizvod.setStyle("-fx-control-inner-background: greenyellow;");
+        }
+        if(!collor) return;
         if(proizvod==null) proizvod = new Proizvod();
         proizvod.setNaziv(tfNazivProizvod.getText());
         proizvod.setKategorija(cbVrstaProizvod.getSelectionModel().getSelectedItem().toString());

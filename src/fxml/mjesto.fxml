@@ -3,7 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="180.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/forme.css" />
+    </stylesheets>
    <children>
       <GridPane hgap="5.0" layoutX="-74.0" layoutY="73.0" prefHeight="252.0" prefWidth="356.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>

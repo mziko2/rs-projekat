@@ -3,8 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="251.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventura.NarudzbaController">
-   <children>
+<?import java.net.URL?>
+<AnchorPane prefHeight="251.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/forme.css" />
+    </stylesheets>
+    <children>
       <GridPane layoutX="38.0" layoutY="35.0" prefHeight="251.0" prefWidth="387.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

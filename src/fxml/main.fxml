@@ -23,7 +23,6 @@
                   <items>
                       <MenuItem mnemonicParsing="false" text="Otvori XML" />
                       <MenuItem mnemonicParsing="false" text="Spremi kao XML" />
-                      <MenuItem mnemonicParsing="false" text="Spremi kao JSON" />
                       <MenuItem mnemonicParsing="false" text="Izlaz" />
                   </items>
                 </Menu>

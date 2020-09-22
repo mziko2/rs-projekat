@@ -36,8 +36,8 @@ create table if not exists narudzba(
     foreign key (`mjesto_id`) references mjesto(`id`),
     primary key (`id`)
   );
-  insert into `narudzba` values (1,'Frizider','Kupovina','Kupovina fizidera','2020-14-09',1,1);
-  insert into `narudzba` values (2,'Sporet','Kupovina','Kupovina sporeta','2020-14-09',2,2);
-  insert into `narudzba` values (3,'Racunar','Kupovina','Kupovina racunara','2020-14-09',4,4);
-  insert into `narudzba` values (4,'Auto','Kupovina','Kupovina automobila','2020-14-09',3,3);
+  insert into `narudzba` values (1,'Frizider','Kupovina','Kupovina fizidera','2020-09-09',1,1);
+  insert into `narudzba` values (2,'Sporet','Kupovina','Kupovina sporeta','2020-09-09',2,2);
+  insert into `narudzba` values (3,'Racunar','Kupovina','Kupovina racunara','2020-09-09',4,4);
+  insert into `narudzba` values (4,'Auto','Kupovina','Kupovina automobila','2020-09-09',3,3);
   COMMIT;

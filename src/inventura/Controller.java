@@ -76,7 +76,6 @@ public class Controller implements Initializable {
             stage.setOnHiding(event ->{
                 Proizvod proizvod = proizvodController.getProizvod();
                 if(proizvod!=null){
-                    proizvod.setMjesto_id(dao.dajIdMjesta(proizvod.getMjesto()));
                     dao.dodajProizvod(proizvod);
                     listProizvod.setAll(dao.proizvodi());
                 }
@@ -216,17 +215,66 @@ public class Controller implements Initializable {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/narudzba.fxml"));
+            NarudzbaController narudzbaController = new NarudzbaController(null, dao.mjesta(), dao.proizvodi());
+            loader.setController(narudzbaController);
             root = loader.load();
             stage.setTitle("Grad");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();
+            stage.setOnHiding(event ->{
+                Narudzba narudzba = narudzbaController.getNarudzba();
+                Proizvod proizvod = narudzbaController.getNoviProizvodIzNarudzbe();
+                if(narudzba!=null){
+                    try{
+                        dao.dodajNarudzbu(narudzba);
+                        listNarudzba.setAll(dao.narudzbe());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                if(proizvod!=null){
+                    try{
+                        dao.dodajProizvod(proizvod);
+                        listProizvod.setAll(dao.proizvodi());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void urediNarduzba(ActionEvent actionEvent) throws SQLException {
+        Narudzba narudzba = tvNarudzba.getSelectionModel().getSelectedItem();
+        if(narudzba==null) return;
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/narudzba.fxml"));
+            NarudzbaController narudzbaController = new NarudzbaController(narudzba, dao.mjesta(), dao.proizvodi());
+            loader.setController(narudzbaController);
+            root = loader.load();
+            stage.setTitle("Grad");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
+            stage.setOnHiding(event ->{
+                Narudzba novaNarudzba = narudzbaController.getNarudzba();
+                if(novaNarudzba!=null){
+                    try{
+                        dao.izmjeniNarudzbu(novaNarudzba);
+                        listNarudzba.setAll(dao.narudzbe());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -248,11 +296,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            dao.vratiBazuNaDefault();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         tbProizvod.setItems(listProizvod);
         tbProizvodId.setCellValueFactory(new PropertyValueFactory("id"));
         tbProizvodNaziv.setCellValueFactory(new PropertyValueFactory("naziv"));
