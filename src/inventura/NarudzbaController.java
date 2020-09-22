@@ -131,7 +131,7 @@ public class NarudzbaController implements Initializable {
         if(narudzba!=null) {
             tfProizvodNarudzba.setText(narudzba.getProizvod());
             tfOpisNarudzba.setText(narudzba.getOpis());
-            DateTimeFormatter df = new DateTimeFormatterBuilder().parseCaseInsensitive().append(DateTimeFormatter.ofPattern("yyyy-dd-MM")).toFormatter();
+            DateTimeFormatter df = new DateTimeFormatterBuilder().parseCaseInsensitive().append(DateTimeFormatter.ofPattern("yyyy-d-MM")).toFormatter();
             dpDatumNarudzba.setValue(LocalDate.parse(narudzba.getDatum(), df));
 
             for (Mjesto mjesto : novaMjesta) {

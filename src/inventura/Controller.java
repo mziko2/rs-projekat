@@ -2,6 +2,8 @@ package inventura;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,6 +49,9 @@ public class Controller implements Initializable {
     public TableColumn tbNarudzbaOpis;
     public TableView<Narudzba> tvNarudzba;
     public TableColumn tbNarudzbaProizvod;
+    public Label lPocetnaTekst;
+    public Label lPocetnaTekst1;
+    public TextField tfPretragaProizvod;
     private InventuraDAO dao;
     private ObservableList<Proizvod> listProizvod;
     private ObservableList<Mjesto> listMjesto;
@@ -84,6 +89,7 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setPocetnu();
 
         
     }
@@ -131,6 +137,7 @@ public class Controller implements Initializable {
             dao.obrisiProizvod(proizvod.getId());
             listProizvod.setAll(dao.proizvodi());
         }
+        setPocetnu();
     }
 
     public void dodajSlikuProizvod(ActionEvent actionEvent) {
@@ -162,7 +169,7 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+    setPocetnu();
     }
 
     public void urediProstor(ActionEvent actionEvent) {
@@ -208,6 +215,7 @@ public class Controller implements Initializable {
             dao.obrisiMjesto(mjesto.getId());
             listMjesto.setAll(dao.mjesta());
         }
+        setPocetnu();
     }
 
     public void dodajNarudzba(ActionEvent actionEvent) {
@@ -245,6 +253,7 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setPocetnu();
     }
 
     public void urediNarduzba(ActionEvent actionEvent) throws SQLException {
@@ -292,10 +301,16 @@ public class Controller implements Initializable {
             dao.obrisiNarudzbu(narudzba.getId());
             listNarudzba.setAll(dao.narudzbe());
         }
+        setPocetnu();
     }
+    public void setPocetnu(){
 
+        lPocetnaTekst.setText("Trenutno imate "+dao.proizvodi().size()+" proizvoda na "+dao.mjesta().size()+" lokacije.");
+        lPocetnaTekst1.setText("Do sada ste naručili "+dao.narudzbe().size() + " proizvoda");
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setPocetnu();
         tbProizvod.setItems(listProizvod);
         tbProizvodId.setCellValueFactory(new PropertyValueFactory("id"));
         tbProizvodNaziv.setCellValueFactory(new PropertyValueFactory("naziv"));
@@ -313,7 +328,37 @@ public class Controller implements Initializable {
         tbNarudzbaVrsta.setCellValueFactory(new PropertyValueFactory("vrsta"));
         tbNarudzbaOpis.setCellValueFactory(new PropertyValueFactory("opis"));
         tbNarudzbaDatum.setCellValueFactory(new PropertyValueFactory("datum"));
+        //Pretraga proizvoda
+        FilteredList<Proizvod> filteredList = new FilteredList<>(listProizvod,p->true);
+        tfPretragaProizvod.textProperty().addListener((obs,stara,nova)->{
+            filteredList.setPredicate(proizvod -> {
+                if(nova==null || nova.isEmpty()) return true;
+                String filter=nova.toLowerCase();
+                if(proizvod.getNaziv().toLowerCase().contains(filter)) return true;
+                return false;
+            });
+        });
+        SortedList<Proizvod> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tbProizvod.comparatorProperty());
+        tbProizvod.setItems(sortedList);
+
+        //Pretraga mjesta
+
+        FilteredList<Mjesto> filterListMjesto = new FilteredList<>(listMjesto,k->true);
+        tfPretragaProstor.textProperty().addListener((obs1,stara1,nova1)->{
+            filterListMjesto.setPredicate(mjesto -> {
+                if(nova1==null || nova1.isEmpty()) return true;
+                String filter1=nova1.toLowerCase();
+                if(mjesto.getNaziv().toLowerCase().contains(filter1)) return true;
+                return false;
+            });
+        });
+        SortedList<Mjesto> sortedList1 = new SortedList<>(filterListMjesto);
+        sortedList1.comparatorProperty().bind(tvProstor.comparatorProperty());
+        tvProstor.setItems(sortedList1);
 
     }
+
+
 
 }
