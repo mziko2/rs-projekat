@@ -366,7 +366,8 @@ public class InventuraDAO {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-
+            stmt.executeUpdate("delete from mjesto");
+            stmt.executeUpdate("delete from narudzba");
             stmt.executeUpdate("Delete from proizvod");
         } catch (SQLException throwables) {
             throwables.printStackTrace();

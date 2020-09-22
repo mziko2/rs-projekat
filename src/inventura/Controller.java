@@ -379,10 +379,21 @@ public class Controller implements Initializable {
         XMLFormat xml = new XMLFormat();
         xml.ucitaj(file);
         ArrayList<Proizvod> proizvodiIzXML = xml.getProizvodi();
+        ArrayList<Mjesto> mjestoIzXML = xml.getMjesta();
+        ArrayList<Narudzba> narudzbaIzXML = xml.getNarudzbe();
         dao.obrisiSve();
         for(int i=0;i<proizvodiIzXML.size();i++){
+            if(proizvodiIzXML.get(i).getNaziv()!=null)
             dao.dodajProizvod(proizvodiIzXML.get(i));
         }
+        for(int i=0;i<mjestoIzXML.size();i++){
+            if(mjestoIzXML.get(i).getNaziv()!=null)
+            dao.dodajMjesto(mjestoIzXML.get(i));
+        }
+        for(int i=0;i<narudzbaIzXML.size();i++){
+            dao.dodajNarudzbu(narudzbaIzXML.get(i));
+        }
+
         listProizvod.setAll(dao.proizvodi());
         listMjesto.setAll(dao.mjesta());
         listNarudzba.setAll(dao.narudzbe());
@@ -404,6 +415,8 @@ public class Controller implements Initializable {
 
             XMLFormat xml = new XMLFormat();
             xml.setProizvodi(dao.proizvodi());
+            xml.setMjesta(dao.mjesta());
+            xml.setNarudzbe(dao.narudzbe());
             xml.zapisi(file);
         } catch (Exception e) {
             e.printStackTrace();
