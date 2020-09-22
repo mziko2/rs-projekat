@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -22,6 +24,7 @@ public class ProizvodController implements Initializable {
     public ObservableList<String> listMjesto = FXCollections.observableArrayList();
     public ObservableList<String> listKategorije = FXCollections.observableArrayList();
     public Proizvod proizvod;
+    private ArrayList<Mjesto> novaMjesta;
 
     public ProizvodController(Proizvod proizvod, ArrayList<Mjesto> mjesta, ArrayList<String> kategorija){
         this.proizvod=proizvod;
@@ -31,6 +34,7 @@ public class ProizvodController implements Initializable {
             listMjesto.add(mjesto.getNaziv());
         }
         listKategorije.setAll(kategorija);
+        this.novaMjesta=mjesta;
     }
     public ProizvodController(){
 
@@ -42,7 +46,10 @@ public class ProizvodController implements Initializable {
         proizvod.setNaziv(tfNazivProizvod.getText());
         proizvod.setKategorija(cbVrstaProizvod.getSelectionModel().getSelectedItem().toString());
         proizvod.setMjesto(cbMjestoProizvod.getSelectionModel().getSelectedItem().toString());
-        proizvod.setDatum(dpDatumProizvod.toString());
+        proizvod.setDatum(dpDatumProizvod.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        for(Mjesto mjesto:novaMjesta){
+            if(mjesto.getNaziv().equals(cbMjestoProizvod.getSelectionModel().getSelectedItem())) proizvod.setMjesto_id(mjesto.getId());
+        }
         Stage stage = (Stage) tfNazivProizvod.getScene().getWindow();
         stage.close();
     }
@@ -63,7 +70,8 @@ public class ProizvodController implements Initializable {
 
         if(proizvod != null){
             tfNazivProizvod.setText(proizvod.getNaziv());
-            dpDatumProizvod.setValue(LocalDate.parse(proizvod.getDatum()));
+            DateTimeFormatter df = new DateTimeFormatterBuilder().parseCaseInsensitive().append(DateTimeFormatter.ofPattern("yyyy-MM-d")).toFormatter();
+            dpDatumProizvod.setValue(LocalDate.parse(proizvod.getDatum(),df));
             for(String mjesto : listMjesto){
                 if(mjesto.equals(proizvod.getMjesto())) cbMjestoProizvod.getSelectionModel().select(mjesto);
             }

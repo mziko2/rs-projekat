@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="inventura" uuid="55e49987-6bd9-406f-90c6-02a3c6ab78ad">
+    <data-source source="LOCAL" name="inventura.db.sql" uuid="07d7f11b-a907-4113-8b4f-bce408a29d41">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\ASUS\IdeaProjects\rs-projekat\src\database\inventura</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/database/inventura.db.sql</jdbc-url>
     </data-source>
   </component>
 </project>

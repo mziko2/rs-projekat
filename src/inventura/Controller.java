@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -77,6 +78,7 @@ public class Controller implements Initializable {
                 if(proizvod!=null){
                     proizvod.setMjesto_id(dao.dajIdMjesta(proizvod.getMjesto()));
                     dao.dodajProizvod(proizvod);
+                    listProizvod.setAll(dao.proizvodi());
                 }
             });
 
@@ -88,11 +90,48 @@ public class Controller implements Initializable {
     }
 
     public void urediProizvod(ActionEvent actionEvent) {
+        Proizvod proizvod = tbProizvod.getSelectionModel().getSelectedItem();
+        if(proizvod==null) return;
+        Stage stage = new Stage();
+        Parent root = null;
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/proizvod.fxml"));
+            ProizvodController proizvodController = new ProizvodController(proizvod,dao.mjesta(), dao.dajKategorijeProizvoda());
+            loader.setController(proizvodController);
+            root=loader.load();
+            stage.setTitle("Izmjena proizvoda");
+            stage.setScene(new Scene(root,USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
+            stage.show();
 
+            stage.setOnHiding(event ->{
+                Proizvod noviProizvod=proizvodController.getProizvod();
+                if(noviProizvod!=null){
+                    try{
+                        dao.izmjeniProizvod(noviProizvod);
+                        listProizvod.setAll(dao.proizvodi());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void obrisiProizvod(ActionEvent actionEvent) {
-
+        Proizvod proizvod = tbProizvod.getSelectionModel().getSelectedItem();
+        if(proizvod==null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Potvrda brisanja");
+        alert.setHeaderText("Brisanje proizvoda "+proizvod.getNaziv());
+        alert.setContentText("Da li ste sigurni da želite obrisati proizvod "+proizvod.getNaziv()+"?");
+        alert.setResizable(true);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            dao.obrisiProizvod(proizvod.getId());
+            listProizvod.setAll(dao.proizvodi());
+        }
     }
 
     public void dodajSlikuProizvod(ActionEvent actionEvent) {
@@ -107,22 +146,69 @@ public class Controller implements Initializable {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mjesto.fxml"));
+            MjestoController mjestoController = new MjestoController(null);
+            loader.setController(mjestoController);
             root = loader.load();
             stage.setTitle("Grad");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();
+            stage.setOnHiding(event ->{
+                Mjesto mjesto = mjestoController.getMjesto();
+                if(mjesto!=null){
+                    dao.dodajMjesto(mjesto);
+                    listMjesto.setAll(dao.mjesta());
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void urediProstor(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        Parent root = null;
+        Mjesto mjesto = tvProstor.getSelectionModel().getSelectedItem();
+        if(mjesto==null) return;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mjesto.fxml"));
+            MjestoController mjestoController = new MjestoController(mjesto);
+            loader.setController(mjestoController);
+            root = loader.load();
+            stage.setTitle("Grad");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
+            stage.setOnHiding(event ->{
+                Mjesto novoMjesto = mjestoController.getMjesto();
+                if(novoMjesto!=null){
+                    try {
+                        dao.izmjeniMjesto(novoMjesto);
+                        listMjesto.setAll(dao.mjesta());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void urediProstor(ActionEvent actionEvent) {
-
-    }
-
     public void obrisiProstor(ActionEvent actionEvent) {
-
+        Mjesto mjesto = tvProstor.getSelectionModel().getSelectedItem();
+        if(mjesto==null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Potvrda brisanja");
+        alert.setHeaderText("Brisanje mjesta "+mjesto.getNaziv());
+        alert.setContentText("Da li ste sigurni da želite obrisati mjesto "+mjesto.getNaziv()+"?");
+        alert.setResizable(true);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            dao.obrisiMjesto(mjesto.getId());
+            listMjesto.setAll(dao.mjesta());
+        }
     }
 
     public void dodajNarudzba(ActionEvent actionEvent) {
@@ -140,8 +226,24 @@ public class Controller implements Initializable {
         }
     }
 
-    public void urediNarduzba(ActionEvent actionEvent) {
+    public void urediNarduzba(ActionEvent actionEvent) throws SQLException {
 
+    }
+
+
+    public void obrisiNarudzba(ActionEvent actionEvent) {
+        Narudzba narudzba = tvNarudzba.getSelectionModel().getSelectedItem();
+        if(narudzba==null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Potvrda brisanja");
+        alert.setHeaderText("Brisanje narudzbe proizvoda "+narudzba.getProizvod());
+        alert.setContentText("Da li ste sigurni da želite obrisati narudzbu za proizvod "+narudzba.getProizvod()+"?");
+        alert.setResizable(true);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            dao.obrisiNarudzbu(narudzba.getId());
+            listNarudzba.setAll(dao.narudzbe());
+        }
     }
 
     @Override
@@ -170,4 +272,5 @@ public class Controller implements Initializable {
         tbNarudzbaDatum.setCellValueFactory(new PropertyValueFactory("datum"));
 
     }
+
 }

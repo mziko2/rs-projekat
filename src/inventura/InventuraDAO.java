@@ -49,9 +49,9 @@ public class InventuraDAO {
             obrisiNarudzbu=conn.prepareStatement("Delete from narudzba where id=?");
             obrisiProizvod=conn.prepareStatement("Delete from proizvod where id=?");
 
-            nadjiMjesto=conn.prepareStatement("Select * from mjesto where naziv=?");
-            nadjiNarudzbu=conn.prepareStatement("select * from narudzba where opis=?");
-            nadjiProizvod=conn.prepareStatement("Select * from proizvod where naziv=?");
+            nadjiMjesto=conn.prepareStatement("Select * from mjesto where id=?");
+            nadjiNarudzbu=conn.prepareStatement("select * from narudzba where id=?");
+            nadjiProizvod=conn.prepareStatement("Select * from proizvod where id=?");
 
             dodajMjesto=conn.prepareStatement("insert into mjesto values(?,?,?,?)");
             dodajNarudzbu=conn.prepareStatement("insert into narudzba values(?,?,?,?,?,?,?)");
@@ -65,9 +65,9 @@ public class InventuraDAO {
             izmjeniNarudzbu=conn.prepareStatement("update narudzba set proizvod=?, vrsta=?, opis=?, datum=?, proizvod_id=?, mjesto_id=? where id=?");
             izmjeniProizvod=conn.prepareStatement("update proizvod set naziv=?, kategorija=?, datum=?, mjesto=?, mjesto_id=? where id=?");
 
-            dajMjesta=conn.prepareStatement("select * from mjesto order by naziv");
+            dajMjesta=conn.prepareStatement("select * from mjesto order by id");
             dajProizvode=conn.prepareStatement("select * from proizvod order by id");
-            dajNarudzbu=conn.prepareStatement("select * from narudzba");
+            dajNarudzbu=conn.prepareStatement("select * from narudzba order by id");
 
             dajKategorijuProizvoda=conn.prepareStatement("select kategorija from proizvod");
         }catch(SQLException e){
@@ -94,19 +94,22 @@ public class InventuraDAO {
         Scanner ulaz = null;
         try {
             ulaz = new Scanner(new FileInputStream("inventura.db.sql"));
-            String sqlUpit = "";
-            while (ulaz.hasNext()) {
-                sqlUpit += ulaz.nextLine();
-                if ( sqlUpit.charAt( sqlUpit.length()-1 ) == ';') {
-                    try {
-                        Statement stmt = conn.createStatement();
-                        stmt.execute(sqlUpit);
-                        sqlUpit = "";
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+            if(ulaz!=null){
+                String sqlUpit = "";
+                while (ulaz.hasNext()) {
+                    sqlUpit += ulaz.nextLine();
+                    if ( sqlUpit.charAt( sqlUpit.length()-1 ) == ';') {
+                        try {
+                            Statement stmt = conn.createStatement();
+                            stmt.execute(sqlUpit);
+                            sqlUpit = "";
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
+
             ulaz.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -164,9 +167,9 @@ public class InventuraDAO {
             return null;
         }
     }
-    public void obrisiMjesto(String nazivMjesta){
+    public void obrisiMjesto(int id){
         try{
-            nadjiMjesto.setString(1,nazivMjesta);
+            nadjiMjesto.setInt(1,id);
             ResultSet rs = nadjiMjesto.executeQuery();
             if(!rs.next()) return;
             Mjesto mjesto = dajMjestoIzRs(rs);
@@ -176,9 +179,9 @@ public class InventuraDAO {
             e.printStackTrace();
         }
     }
-    public void obrisiProizvod(String nazivProizvoda){
+    public void obrisiProizvod(int id){
         try{
-            nadjiProizvod.setString(1,nazivProizvoda);
+            nadjiProizvod.setInt(1,id);
             ResultSet rs = nadjiProizvod.executeQuery();
             if(!rs.next()) return;
             Proizvod proizvod = dajProizvodIzRs(rs);
@@ -188,7 +191,18 @@ public class InventuraDAO {
             e.printStackTrace();
         }
     }
-
+    public void obrisiNarudzbu(int id){
+        try{
+            nadjiNarudzbu.setInt(1,id);
+            ResultSet rs = nadjiNarudzbu.executeQuery();
+            if(!rs.next()) return;
+            Narudzba narudzba = dajNarudzbuIzRs(rs);
+            obrisiNarudzbu.setInt(1, narudzba.getId());
+            obrisiNarudzbu.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     public void dodajMjesto(Mjesto mjesto){
         try{
            ResultSet rs = odrediIdMjesta.executeQuery();

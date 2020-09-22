@@ -97,7 +97,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Prostor">
+                <Tab text="Mjesto">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -157,10 +157,11 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2">
                                       <buttons>
                                         <Button fx:id="btnDodajNarudzba" mnemonicParsing="false" onAction="#dodajNarudzba" text="Dodaj" />
                                           <Button fx:id="btnUrediNarudzba" mnemonicParsing="false" onAction="#urediNarduzba" text="Uredi" />
+                                          <Button fx:id="btnObrisiNarudzbu" mnemonicParsing="false" onAction="#obrisiNarudzba" text="Obrisi" />
                                       </buttons>
                                     </ButtonBar>
                                     <TableView fx:id="tvNarudzba" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="3">
