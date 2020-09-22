@@ -459,10 +459,22 @@ public class Controller implements Initializable {
     }
 
     public void actionSaveJSON(ActionEvent actionEvent) {
-        try {
-            dao.vratiBazuNaDefault();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        try{
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Zapiši JSON datoteku");
+            Stage stage = (Stage)tbProizvod.getScene().getWindow();
+            File file = fileChooser.showSaveDialog(stage);
+            if (file == null) // Kliknuto na cancel
+                return;
+            JSONFormat jsonFormat = new JSONFormat();
+            jsonFormat.setProizvodi(dao.proizvodi());
+            jsonFormat.setMjesta(dao.mjesta());
+            jsonFormat.setNarudzbe(dao.narudzbe());
+            jsonFormat.zapisi(file);
+
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 

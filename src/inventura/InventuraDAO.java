@@ -75,8 +75,7 @@ public class InventuraDAO {
             dajProizvodeSortiraneAscKategorija=conn.prepareStatement("select * from proizvod order by kategorija asc");
             dajProizvodeSortiraneDescKategorija=conn.prepareStatement("select * from proizvod order by kategorija desc");
 
-
-            dajKategorijuProizvoda=conn.prepareStatement("select kategorija from proizvod");
+            dajKategorijuProizvoda=conn.prepareStatement("select distinct kategorija from proizvod");
         }catch(SQLException e){
             e.printStackTrace();
         }
