@@ -1,5 +1,8 @@
 package inventura;
 
+import com.sun.javafx.scene.control.skin.FXVKSkin;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -60,6 +63,7 @@ public class Controller implements Initializable {
     private ObservableList<Proizvod> listProizvod;
     private ObservableList<Mjesto> listMjesto;
     private ObservableList<Narudzba> listNarudzba;
+    private ObservableList<String> listSort = FXCollections.observableArrayList();
 
     public Controller(){
         dao = InventuraDAO.getInstance();
@@ -314,8 +318,36 @@ public class Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //Sortiranje proizvoda
+        listSort.add("Proizvod ↑");
+        listSort.add("Proizvod ↓");
+        listSort.add("Kategorija ↑");
+        listSort.add("Kategorija ↓");
+        cbSortiraj.setItems(listSort);
+        cbSortiraj.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if((Integer) t1 == 0){
+                    ArrayList<Proizvod> noviProizvodi=dao.proizvodiNazivAsc();
+                    listProizvod.setAll(noviProizvodi);
+                }
+                else if((Integer) t1 == 1){
+                    ArrayList<Proizvod> noviProizvodi=dao.proizvodiNazivDesc();
+                    listProizvod.setAll(noviProizvodi);
+                }
+                else if((Integer) t1 == 2){
+                    ArrayList<Proizvod> noviProizvodi=dao.proizvodiNazivAscKategorija();
+                    listProizvod.setAll(noviProizvodi);
+                }
+                else{
+                    ArrayList<Proizvod> noviProizvodi=dao.proizvodiNazivDescKategorija();
+                    listProizvod.setAll(noviProizvodi);
+                }
+            }
+        });
+        //Pozivanje funkcije koja setuje pocetnu stranicu
         setPocetnu();
+        //Postavljanje vrijednosti table view-a
         tbProizvod.setItems(listProizvod);
         tbProizvodId.setCellValueFactory(new PropertyValueFactory("id"));
         tbProizvodNaziv.setCellValueFactory(new PropertyValueFactory("naziv"));
@@ -334,7 +366,9 @@ public class Controller implements Initializable {
         tbNarudzbaVrsta.setCellValueFactory(new PropertyValueFactory("vrsta"));
         tbNarudzbaOpis.setCellValueFactory(new PropertyValueFactory("opis"));
         tbNarudzbaDatum.setCellValueFactory(new PropertyValueFactory("datum"));
+
         //Pretraga proizvoda
+
         FilteredList<Proizvod> filteredList = new FilteredList<>(listProizvod,p->true);
         tfPretragaProizvod.textProperty().addListener((obs,stara,nova)->{
             filteredList.setPredicate(proizvod -> {
@@ -391,6 +425,7 @@ public class Controller implements Initializable {
             dao.dodajMjesto(mjestoIzXML.get(i));
         }
         for(int i=0;i<narudzbaIzXML.size();i++){
+            if(narudzbaIzXML.get(i).getProizvod()!=null)
             dao.dodajNarudzbu(narudzbaIzXML.get(i));
         }
 
@@ -432,8 +467,16 @@ public class Controller implements Initializable {
     }
 
     public void actionExitApp(ActionEvent actionEvent) {
+        Stage stage = (Stage) tfPretragaProstor.getScene().getWindow();
+        stage.close();
     }
 
     public void actionMenuAbout(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("O aplikaciji");
+        alert.setHeaderText("Verzija aplikacije: 1.0.0");
+        alert.setContentText("Projekat radio: Mirza Žiko");
+        alert.setResizable(true);
+        alert.showAndWait();
     }
 }

@@ -13,7 +13,8 @@ public class InventuraDAO {
     //Nazivi upita
     private PreparedStatement dajMjesto, dajNarudzbu, dajProizvod, obrisiMjesto, obrisiNarudzbu, obrisiProizvod,
     nadjiMjesto, nadjiNarudzbu, nadjiProizvod, dodajMjesto, dodajNarudzbu, dodajProizvod, odrediIdMjesta, odrediIdProizvoda,
-    odrediIdNarudzbe, izmjeniMjesto, izmjeniProizvod, izmjeniNarudzbu, dajMjesta, dajNarudzbe, dajProizvode, dajKategorijuProizvoda;
+    odrediIdNarudzbe, izmjeniMjesto, izmjeniProizvod, izmjeniNarudzbu, dajMjesta, dajNarudzbe, dajProizvode, dajKategorijuProizvoda,
+    dajProizvodeSortiraneDesc, dajProizvodeSortiraneAsc, dajProizvodeSortiraneDescKategorija, dajProizvodeSortiraneAscKategorija;
 
 
 
@@ -68,6 +69,12 @@ public class InventuraDAO {
             dajMjesta=conn.prepareStatement("select * from mjesto order by id");
             dajProizvode=conn.prepareStatement("select * from proizvod order by id");
             dajNarudzbu=conn.prepareStatement("select * from narudzba order by id");
+
+            dajProizvodeSortiraneAsc=conn.prepareStatement("select * from proizvod order by naziv asc");
+            dajProizvodeSortiraneDesc=conn.prepareStatement("select * from proizvod order by naziv desc");
+            dajProizvodeSortiraneAscKategorija=conn.prepareStatement("select * from proizvod order by kategorija asc");
+            dajProizvodeSortiraneDescKategorija=conn.prepareStatement("select * from proizvod order by kategorija desc");
+
 
             dajKategorijuProizvoda=conn.prepareStatement("select kategorija from proizvod");
         }catch(SQLException e){
@@ -208,7 +215,7 @@ public class InventuraDAO {
            ResultSet rs = odrediIdMjesta.executeQuery();
            int id=1;
            if(rs.next()) id=rs.getInt(1);
-
+            if(id==0) id=1;
            dodajMjesto.setInt(1,id);
            dodajMjesto.setString(2,mjesto.getNaziv());
            dodajMjesto.setString(3,mjesto.getLokacija());
@@ -223,6 +230,7 @@ public class InventuraDAO {
             ResultSet rs = odrediIdProizvoda.executeQuery();
             int id=1;
             if(rs.next()) id=rs.getInt(1);
+            if(id==0) id=1;
             dodajProizvod.setInt(1,id);
             dodajProizvod.setString(2,proizvod.getNaziv());
             dodajProizvod.setString(3,proizvod.getKategorija());
@@ -240,7 +248,7 @@ public class InventuraDAO {
             ResultSet rs = odrediIdNarudzbe.executeQuery();
             int id=1;
             if(rs.next()) id=rs.getInt(1);
-
+            if(id==0) id=1;
             dodajNarudzbu.setInt(1,id);
             dodajNarudzbu.setString(2,narudzba.getProizvod());
             dodajNarudzbu.setString(3,narudzba.getVrsta());
@@ -372,6 +380,62 @@ public class InventuraDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
+
+    public ArrayList<Proizvod> proizvodiNazivAsc(){
+        ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
+        try{
+            ResultSet rs = dajProizvodeSortiraneAsc.executeQuery();
+            while(rs.next()){
+                Proizvod proizvod = dajProizvodIzRs(rs);
+                proizvodi.add(proizvod);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return proizvodi;
+    }
+    public ArrayList<Proizvod> proizvodiNazivDesc(){
+        ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
+        try{
+            ResultSet rs = dajProizvodeSortiraneDesc.executeQuery();
+            while(rs.next()){
+                Proizvod proizvod = dajProizvodIzRs(rs);
+                proizvodi.add(proizvod);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return proizvodi;
+    }
+    public ArrayList<Proizvod> proizvodiNazivAscKategorija(){
+        ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
+        try{
+            ResultSet rs = dajProizvodeSortiraneAscKategorija.executeQuery();
+            while(rs.next()){
+                Proizvod proizvod = dajProizvodIzRs(rs);
+                proizvodi.add(proizvod);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return proizvodi;
+    }
+    public ArrayList<Proizvod> proizvodiNazivDescKategorija(){
+        ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
+        try{
+            ResultSet rs = dajProizvodeSortiraneDescKategorija.executeQuery();
+            while(rs.next()){
+                Proizvod proizvod = dajProizvodIzRs(rs);
+                proizvodi.add(proizvod);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return proizvodi;
+    }
+
+
+
+
 }
