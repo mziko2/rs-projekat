@@ -17,13 +17,14 @@ create table if not exists `proizvod`(
     `datum` date,
     `mjesto` text,
     `mjesto_id` integer,
+    `kolicina` integer,
     foreign key (`mjesto_id`) references mjesto(`id`),
     primary key (`id`)
 );
-insert into `proizvod` values (1,'Frizider','Bijela tehnika','2020-12-03','Spajiz',1);
-insert into `proizvod` values (2,'Sporet','Bijela tehnika','2020-12-03','Kuhinja',2);
-insert into `proizvod` values (3,'Auto','Vozilo','2020-12-03','Garaza',3);
-insert into `proizvod` values (4,'Kompjuter','Elektronika','2020-12-03','Djecija soba',4);
+insert into `proizvod` values (1,'Frizider','Bijela tehnika','2020-12-03','Spajiz',1,1);
+insert into `proizvod` values (2,'Sporet','Bijela tehnika','2020-12-03','Kuhinja',2,2);
+insert into `proizvod` values (3,'Auto','Vozilo','2020-12-03','Garaza',3,1);
+insert into `proizvod` values (4,'Kompjuter','Elektronika','2020-12-03','Djecija soba',4,5);
 create table if not exists narudzba(
     `id` integer not null,
     `proizvod` text,

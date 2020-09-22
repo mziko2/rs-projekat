@@ -55,7 +55,7 @@ public class InventuraDAO {
 
             dodajMjesto=conn.prepareStatement("insert into mjesto values(?,?,?,?)");
             dodajNarudzbu=conn.prepareStatement("insert into narudzba values(?,?,?,?,?,?,?)");
-            dodajProizvod=conn.prepareStatement("insert into proizvod values(?,?,?,?,?,?)");
+            dodajProizvod=conn.prepareStatement("insert into proizvod values(?,?,?,?,?,?,?)");
 
             odrediIdMjesta=conn.prepareStatement("select MAX(id)+1 from mjesto");
             odrediIdProizvoda=conn.prepareStatement("select max(id)+1 from proizvod");
@@ -63,7 +63,7 @@ public class InventuraDAO {
 
             izmjeniMjesto=conn.prepareStatement("update mjesto set naziv=?, lokacija=?, opis=? where id=?");
             izmjeniNarudzbu=conn.prepareStatement("update narudzba set proizvod=?, vrsta=?, opis=?, datum=?, proizvod_id=?, mjesto_id=? where id=?");
-            izmjeniProizvod=conn.prepareStatement("update proizvod set naziv=?, kategorija=?, datum=?, mjesto=?, mjesto_id=? where id=?");
+            izmjeniProizvod=conn.prepareStatement("update proizvod set naziv=?, kategorija=?, datum=?, mjesto=?, mjesto_id=?, kolicina=? where id=?");
 
             dajMjesta=conn.prepareStatement("select * from mjesto order by id");
             dajProizvode=conn.prepareStatement("select * from proizvod order by id");
@@ -154,7 +154,7 @@ public class InventuraDAO {
         }
     }
     private Proizvod dajProizvodIzRs(ResultSet rs) throws SQLException{
-        return new Proizvod(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6));
+        return new Proizvod(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7));
     }
     public Proizvod dajProizvod(int id){
         try{
@@ -223,13 +223,13 @@ public class InventuraDAO {
             ResultSet rs = odrediIdProizvoda.executeQuery();
             int id=1;
             if(rs.next()) id=rs.getInt(1);
-
             dodajProizvod.setInt(1,id);
             dodajProizvod.setString(2,proizvod.getNaziv());
             dodajProizvod.setString(3,proizvod.getKategorija());
             dodajProizvod.setString(4,proizvod.getDatum());
             dodajProizvod.setString(5,proizvod.getMjesto());
             dodajProizvod.setInt(6,proizvod.getMjesto_id());
+            dodajProizvod.setInt(7,proizvod.getKolicina_proizvoda());
             dodajProizvod.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -288,6 +288,7 @@ public class InventuraDAO {
             izmjeniProizvod.setString(3,proizvod.getDatum());
             izmjeniProizvod.setString(4,proizvod.getMjesto());
             izmjeniProizvod.setInt(5,proizvod.getMjesto_id());
+            izmjeniProizvod.setInt(6,proizvod.getKolicina_proizvoda());
             izmjeniProizvod.setInt(6,proizvod.getId());
             izmjeniProizvod.executeUpdate();
         }catch(SQLException e){
@@ -361,5 +362,15 @@ public class InventuraDAO {
     }
 
 
+    public void obrisiSve() {
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
 
+            stmt.executeUpdate("Delete from proizvod");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
 }

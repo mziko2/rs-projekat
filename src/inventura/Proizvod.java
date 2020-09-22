@@ -9,14 +9,16 @@ public class Proizvod {
     String mjesto;
     String datum;
     int mjesto_id;
+    int kolicina_proizvoda;
 
-    public Proizvod(int id, String naziv, String kategorija, String datum, String mjesto, int mjesto_id) {
+    public Proizvod(int id, String naziv, String kategorija, String datum, String mjesto, int mjesto_id, int kolicina_proizvoda) {
         this.id=id;
         this.naziv=naziv;
         this.kategorija=kategorija;
         this.datum=datum;
         this.mjesto=mjesto;
         this.mjesto_id=mjesto_id;
+        this.kolicina_proizvoda=kolicina_proizvoda;
     }
     public Proizvod() {
 
@@ -71,7 +73,14 @@ public class Proizvod {
         this.kategorija = kategorija;
     }
 
-   
+
+    public int getKolicina_proizvoda() {
+        return kolicina_proizvoda;
+    }
+
+    public void setKolicina_proizvoda(int kolicina_proizvoda) {
+        this.kolicina_proizvoda = kolicina_proizvoda;
+    }
 
     public String getDatum() {
         return datum;

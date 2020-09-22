@@ -12,11 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -52,6 +55,7 @@ public class Controller implements Initializable {
     public Label lPocetnaTekst;
     public Label lPocetnaTekst1;
     public TextField tfPretragaProizvod;
+    public TableColumn tbProizvodKolicina;
     private InventuraDAO dao;
     private ObservableList<Proizvod> listProizvod;
     private ObservableList<Mjesto> listMjesto;
@@ -310,6 +314,7 @@ public class Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         setPocetnu();
         tbProizvod.setItems(listProizvod);
         tbProizvodId.setCellValueFactory(new PropertyValueFactory("id"));
@@ -317,6 +322,7 @@ public class Controller implements Initializable {
         tbProizvodKategorija.setCellValueFactory(new PropertyValueFactory("kategorija"));
         tbProizvodDatum.setCellValueFactory(new PropertyValueFactory("datum"));
         tbProizvodProstor.setCellValueFactory(new PropertyValueFactory("mjesto"));
+        tbProizvodKolicina.setCellValueFactory(new PropertyValueFactory("kolicina_proizvoda"));
         tvProstor.setItems(listMjesto);
         tbProstorId.setCellValueFactory(new PropertyValueFactory("id"));
         tbProstorNaziv.setCellValueFactory(new PropertyValueFactory("naziv"));
@@ -360,5 +366,61 @@ public class Controller implements Initializable {
     }
 
 
+    public void actionOpenXML(ActionEvent actionEvent) {
+    try{
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Učitaj XML datoteku");
+        Stage stage = (Stage)tbProizvod.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file == null) // Kliknuto na cancel
+            return;
+
+        XMLFormat xml = new XMLFormat();
+        xml.ucitaj(file);
+        ArrayList<Proizvod> proizvodiIzXML = xml.getProizvodi();
+        dao.obrisiSve();
+        for(int i=0;i<proizvodiIzXML.size();i++){
+            dao.dodajProizvod(proizvodiIzXML.get(i));
+        }
+        listProizvod.setAll(dao.proizvodi());
+        listMjesto.setAll(dao.mjesta());
+        listNarudzba.setAll(dao.narudzbe());
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    }
+
+    public void actionSaveXML(ActionEvent actionEvent) {
+        try{
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Zapiši XML datoteku");
+            Stage stage = (Stage)tbProizvod.getScene().getWindow();
+            File file = fileChooser.showSaveDialog(stage);
+            if (file == null) // Kliknuto na cancel
+                return;
+
+            XMLFormat xml = new XMLFormat();
+            xml.setProizvodi(dao.proizvodi());
+            xml.zapisi(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actionSaveJSON(ActionEvent actionEvent) {
+        try {
+            dao.vratiBazuNaDefault();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void actionExitApp(ActionEvent actionEvent) {
+    }
+
+    public void actionMenuAbout(ActionEvent actionEvent) {
+    }
 }

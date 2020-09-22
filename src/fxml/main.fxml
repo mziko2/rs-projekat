@@ -22,15 +22,16 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Fajl">
                   <items>
-                      <MenuItem mnemonicParsing="false" text="Otvori XML" />
-                      <MenuItem mnemonicParsing="false" text="Spremi kao XML" />
-                      <MenuItem mnemonicParsing="false" text="Izlaz" />
+                      <MenuItem fx:id="mOpenXML" mnemonicParsing="false" onAction="#actionOpenXML" text="Otvori XML" />
+                      <MenuItem fx:id="mSaveXML" mnemonicParsing="false" onAction="#actionSaveXML" text="Spremi kao XML" />
+                      <MenuItem fx:id="mSaveJSON" mnemonicParsing="false" onAction="#actionSaveJSON" text="Spemi kao JSON"/>
+                      <MenuItem fx:id="mExit" mnemonicParsing="false" onAction="#actionExitApp" text="Izlaz" />
                   </items>
                 </Menu>
       
                 <Menu mnemonicParsing="false" text="Pomoć">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="O aplikaciji" />
+                    <MenuItem fx:id="mAbout" mnemonicParsing="false" onAction="#actionMenuAbout" text="O aplikaciji" />
                   </items>
                 </Menu>
               </menus>
@@ -75,7 +76,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <GridPane hgap="2.0" layoutX="24.0" layoutY="14.0" prefHeight="344.8" prefWidth="600.0" vgap="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <GridPane hgap="2.0" layoutX="24.0" layoutY="14.0" prefHeight="344.8" prefWidth="600.0" vgap="2.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="106.6" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="196.39999999999998" minWidth="10.0" prefWidth="177.79999999999998" />
@@ -100,20 +101,19 @@
                                           <Button fx:id="btnObrisiProizvod" mnemonicParsing="false" onAction="#obrisiProizvod" text="Obriši" />
                                       </buttons>
                                     </ButtonBar>
-                                    <TableView fx:id="tbProizvod" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+                                    <TableView fx:id="tbProizvod" prefHeight="310.0" prefWidth="662.0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
                                       <columns>
                                         <TableColumn fx:id="tbProizvodId" prefWidth="47.20004117488861" text="ID" />
-                                        <TableColumn fx:id="tbProizvodNaziv" prefWidth="137.39997100830078" text="Naziv" />
-                                        <TableColumn fx:id="tbProizvodKategorija" prefWidth="132.60003662109375" text="Kategorija" />
-                                        <TableColumn fx:id="tbProizvodProstor" minWidth="2.199951171875" prefWidth="116.199951171875" text="Prostor" />
-                                        <TableColumn fx:id="tbProizvodDatum" prefWidth="115.19996948242192" text="Datum" />
+                                        <TableColumn fx:id="tbProizvodNaziv" prefWidth="128.60003662109375" text="Naziv" />
+                                          <TableColumn fx:id="tbProizvodKolicina" prefWidth="58.60003662109375" text="Kolicina" />
+                                        <TableColumn fx:id="tbProizvodKategorija" prefWidth="105.0" text="Kategorija" />
+                                        <TableColumn fx:id="tbProizvodProstor" minWidth="2.199951171875" prefWidth="88.79998779296875" text="Prostor" />
+                                        <TableColumn fx:id="tbProizvodDatum" prefWidth="124.0" text="Datum" />
+
                                       </columns>
                                     </TableView>
                                     <Label prefHeight="90.0" prefWidth="110.0" text="Filtriraj:" GridPane.rowIndex="1" />
                                     <Label prefHeight="38.0" prefWidth="143.0" text="Sortiraj" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                     <ComboBox fx:id="cbFiltrirajKategorija" prefHeight="26.0" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                   
-                               </ComboBox>
                                      <ComboBox fx:id="cbFiltriraj" prefHeight="26.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
 
                                </ComboBox>
