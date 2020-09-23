@@ -6,6 +6,7 @@ public class Mjesto {
     String lokacija;
     String opis;
 
+
     public Mjesto(int id, String naziv, String lokacija, String opis) {
         this.id=id;
         this.naziv=naziv;

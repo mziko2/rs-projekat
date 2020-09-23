@@ -1,8 +1,5 @@
 package inventura;
 
-
-
-
 public class Narudzba {
     int id;
     String proizvod;

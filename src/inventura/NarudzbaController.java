@@ -84,6 +84,7 @@ public class NarudzbaController implements Initializable {
         if(!collor) return;
 
 
+
         boolean nasao = false;
         if(narudzba==null) narudzba = new Narudzba();
         narudzba.setProizvod(tfProizvodNarudzba.getText());

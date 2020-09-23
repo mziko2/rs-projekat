@@ -445,6 +445,7 @@ public class Controller implements Initializable {
                     ivSlika.setImage(image);
                 }else{
                     ivSlika.setImage(null);
+
                 }
             }
         });

@@ -35,6 +35,7 @@ public class JSONFormat {
             jmjesto.put("opis",mjesto.getOpis());
             jInventura.put(jmjesto);
         }
+
         for(Narudzba narudzba : narudzbe){
             JSONObject jnarudzba = new JSONObject();
             jnarudzba.put("proizvod", narudzba.getProizvod());

@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class XMLFormat {
     private ArrayList<Proizvod> proizvodi = new ArrayList<>();
     private ArrayList<Mjesto> mjesta = new ArrayList<>();

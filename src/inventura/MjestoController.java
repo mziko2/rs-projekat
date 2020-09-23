@@ -38,6 +38,7 @@ public class MjestoController implements Initializable {
             tfMjestoOpis.getStyleClass().add("poljeIspravno");
             tfMjestoOpis.setStyle("-fx-control-inner-background: greenyellow;");
         }
+
         if(tfMjestoLokacija.getText().trim().isEmpty()){
             tfMjestoLokacija.getStyleClass().removeAll("poljeIspravno");
             tfMjestoLokacija.getStyleClass().add("PoljeNijeIspravno");

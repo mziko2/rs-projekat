@@ -174,6 +174,7 @@ public class InventuraDAO {
             e.printStackTrace();
             return null;
         }
+
     }
     public void obrisiMjesto(int id){
         try{

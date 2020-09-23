@@ -1,7 +1,5 @@
 package inventura;
 
-import java.util.Date;
-
 public class Proizvod {
     int id;
     String naziv;

@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/main.fxml"));

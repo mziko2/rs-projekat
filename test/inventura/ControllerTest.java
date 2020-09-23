@@ -129,6 +129,7 @@ class ControllerTest {
         robot.clickOn("#btnObrisiProizvod");
 
 
+
         robot.lookup(".dialog-pane").tryQuery().isPresent();
 
         DialogPane dialogPane = robot.lookup(".dialog-pane").queryAs(DialogPane.class);
