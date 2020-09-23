@@ -86,8 +86,8 @@
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="81.4" minHeight="10.0" prefHeight="31.00000762939453" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="194.3999980926514" minHeight="10.0" prefHeight="78.19999237060549" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="266.8000076293945" minHeight="10.0" prefHeight="259.8000076293945" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="194.3999980926514" minHeight="10.0" prefHeight="40.4" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="306.20000000000005" minHeight="10.0" prefHeight="306.20000000000005" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints />
                                 </rowConstraints>

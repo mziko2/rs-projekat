@@ -347,7 +347,7 @@ public class Controller implements Initializable {
     public void setPocetnu(){
 
         lPocetnaTekst.setText("Trenutno imate "+dao.proizvodi().size()+" proizvoda na "+dao.mjesta().size()+" lokacije.");
-        lPocetnaTekst1.setText("Do sada ste naručili "+dao.narudzbe().size() + " proizvoda");
+        lPocetnaTekst1.setText("Do sada ste naručili "+dao.narudzbe().size() + " proizvoda.");
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

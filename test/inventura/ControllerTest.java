@@ -5,15 +5,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testng.annotations.BeforeTest;
 
-import java.awt.*;
 import java.sql.SQLException;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -42,32 +44,8 @@ class ControllerTest {
     public void resetujBazu() throws SQLException {
         dao.vratiBazuNaDefault();
     }
-    @Test
-    void obrisiProizvod(FxRobot robot) {
-        robot.clickOn("#tabProizvod");
-        robot.clickOn("Auto");
-        robot.clickOn("#btnObrisiProizvod");
 
 
-        robot.lookup(".dialog-pane").tryQuery().isPresent();
-
-        DialogPane dialogPane = robot.lookup(".dialog-pane").queryAs(DialogPane.class);
-        javafx.scene.control.Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-        robot.clickOn(okButton);
-
-
-        TableView tableViewProizvodi = robot.lookup("#tbProizvod").queryAs(TableView.class);
-        assertEquals(3, tableViewProizvodi.getItems().size());
-
-
-        InventuraDAO dao = InventuraDAO.getInstance();
-        assertEquals(3, dao.proizvodi().size());
-
-    }
-
-    @Test
-    void dodajSlikuProizvod() {
-    }
     @Test
     void dodajProstor(FxRobot robot){
         robot.clickOn("#tabMjesto");
@@ -113,12 +91,57 @@ class ControllerTest {
     }
 
     @Test
-    void obrisiNarudzba() {
+    void obrisiNarudzba(FxRobot robot) {
+        robot.clickOn("#tabNarudzba");
+        robot.clickOn("Frizider");
+        robot.clickOn("#btnObrisiNarudzbu");
 
+
+        robot.lookup(".dialog-pane").tryQuery().isPresent();
+
+        DialogPane dialogPane = robot.lookup(".dialog-pane").queryAs(DialogPane.class);
+        javafx.scene.control.Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        robot.clickOn(okButton);
+
+
+        TableView tableViewProizvodi = robot.lookup("#tvNarudzba").queryAs(TableView.class);
+        assertEquals(3, tableViewProizvodi.getItems().size());
+
+
+        InventuraDAO dao = InventuraDAO.getInstance();
+        assertEquals(3, dao.narudzbe().size());
 
     }
 
     @Test
-    void setPocetnu() {
+    void setPocetnu(FxRobot robot) {
+        robot.lookup("#lPocetnaTekst");
+        Label label = robot.lookup("#lPocetnaTekst").queryAs(Label.class);
+        assertEquals("Trenutno imate 4 proizvoda na 4 lokacije.",label.getText());
+        Label label1 = robot.lookup("#lPocetnaTekst1").queryAs(Label.class);
+        assertEquals("Do sada ste naručili 4 proizvoda.",label1.getText());
+    }
+
+    @Test
+    void obrisiProizvod(FxRobot robot) {
+        robot.clickOn("#tabProizvod");
+        robot.clickOn("Auto");
+        robot.clickOn("#btnObrisiProizvod");
+
+
+        robot.lookup(".dialog-pane").tryQuery().isPresent();
+
+        DialogPane dialogPane = robot.lookup(".dialog-pane").queryAs(DialogPane.class);
+        javafx.scene.control.Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        robot.clickOn(okButton);
+
+
+        TableView tableViewProizvodi = robot.lookup("#tbProizvod").queryAs(TableView.class);
+        assertEquals(3, tableViewProizvodi.getItems().size());
+
+
+        InventuraDAO dao = InventuraDAO.getInstance();
+        assertEquals(3, dao.proizvodi().size());
+
     }
 }
