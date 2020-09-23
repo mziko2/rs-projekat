@@ -24,7 +24,7 @@
                   <items>
                       <MenuItem fx:id="mOpenXML" mnemonicParsing="false" onAction="#actionOpenXML" text="Otvori XML" />
                       <MenuItem fx:id="mSaveXML" mnemonicParsing="false" onAction="#actionSaveXML" text="Spremi kao XML" />
-                      <MenuItem fx:id="mSaveJSON" mnemonicParsing="false" onAction="#actionSaveJSON" text="Spemi kao JSON"/>
+                      <MenuItem fx:id="mSaveJSON" mnemonicParsing="false" onAction="#actionSaveJSON" text="Spemi kao JSON" />
                       <MenuItem fx:id="mExit" mnemonicParsing="false" onAction="#actionExitApp" text="Izlaz" />
                   </items>
                 </Menu>
@@ -92,7 +92,6 @@
                                     <RowConstraints />
                                 </rowConstraints>
                                  <children>
-                                    <Label prefHeight="35.0" prefWidth="110.0" text="Pretraga:" />
                                     <TextField fx:id="tfPretragaProizvod" GridPane.columnIndex="1" />
                                     <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
                                       <buttons>
@@ -112,14 +111,11 @@
 
                                       </columns>
                                     </TableView>
-                                    <Label prefHeight="90.0" prefWidth="110.0" text="Filtriraj:" GridPane.rowIndex="1" />
-                                    <Label prefHeight="38.0" prefWidth="143.0" text="Sortiraj" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                     <ComboBox fx:id="cbFiltriraj" prefHeight="26.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-
-                               </ComboBox>
-                                    <ComboBox fx:id="cbSortiraj" prefHeight="26.0" prefWidth="96.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <ImageView fx:id="ivSlika" fitHeight="178.0" fitWidth="187.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                    <Button fx:id="btndDdajSlikuProizvod" mnemonicParsing="false" onAction="#dodajSlikuProizvod" text="Dodaj sliku" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <Label prefHeight="90.0" prefWidth="110.0" text="Filtriraj:" />
+                                    <Label prefHeight="38.0" prefWidth="143.0" text="Sortiraj" GridPane.rowIndex="1" />
+                                    <ComboBox fx:id="cbSortiraj" prefHeight="26.0" prefWidth="96.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ImageView fx:id="ivSlika" fitHeight="265.0" fitWidth="187.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <Button fx:id="btndDdajSlikuProizvod" mnemonicParsing="false" onAction="#dodajSlikuProizvod" text="Dodaj sliku" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </children>

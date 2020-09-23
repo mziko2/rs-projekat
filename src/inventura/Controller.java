@@ -8,17 +8,27 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -41,7 +51,7 @@ public class Controller implements Initializable {
     public ComboBox cbFiltrirajKategorija;
     public ComboBox cbFiltriraj;
     public ComboBox cbSortiraj;
-    public ImageView ivSlika;
+    public ImageView ivSlika = new ImageView();
     public TextField tfPretragaProstor;
     public TableView<Mjesto> tvProstor;
     public TableColumn tbProstorId;
@@ -148,11 +158,33 @@ public class Controller implements Initializable {
         setPocetnu();
     }
 
-    public void dodajSlikuProizvod(ActionEvent actionEvent) {
+    public void dodajSlikuProizvod(ActionEvent actionEvent) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Učitaj sliku proizvoda");
+        Stage stage = (Stage)tbProizvod.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
 
-        JFileChooser fileChooser= new JFileChooser();
-        fileChooser.setAcceptAllFileFilterUsed(false);
 
+        if (file == null) // Kliknuto na cancel
+            return;
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        ivSlika.setImage(image);
+        BufferedImage bufferedImage = null;
+        String imeSlike=tbProizvod.getSelectionModel().getSelectedItem().getNaziv();
+        File outputfile = new File("C:/Users/ASUS/IdeaProjects/rs-projekat/src/photos/"+imeSlike+".png");
+        try {
+            bufferedImage=ImageIO.read(file);
+            ImageIO.write(bufferedImage,"png",outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void dodajProstor(ActionEvent actionEvent) {
@@ -367,7 +399,7 @@ public class Controller implements Initializable {
         tbNarudzbaOpis.setCellValueFactory(new PropertyValueFactory("opis"));
         tbNarudzbaDatum.setCellValueFactory(new PropertyValueFactory("datum"));
 
-        //Pretraga proizvoda
+        //Filtriranje proizvoda
 
         FilteredList<Proizvod> filteredList = new FilteredList<>(listProizvod,p->true);
         tfPretragaProizvod.textProperty().addListener((obs,stara,nova)->{
@@ -383,7 +415,6 @@ public class Controller implements Initializable {
         tbProizvod.setItems(sortedList);
 
         //Pretraga mjesta
-
         FilteredList<Mjesto> filterListMjesto = new FilteredList<>(listMjesto,k->true);
         tfPretragaProstor.textProperty().addListener((obs1,stara1,nova1)->{
             filterListMjesto.setPredicate(mjesto -> {
@@ -397,6 +428,25 @@ public class Controller implements Initializable {
         sortedList1.comparatorProperty().bind(tvProstor.comparatorProperty());
         tvProstor.setItems(sortedList1);
 
+        //Prikaz slika
+        tbProizvod.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                String imeSlike = tbProizvod.getSelectionModel().getSelectedItem().getNaziv();
+                File proizvodSlika = new File("C:/Users/ASUS/IdeaProjects/rs-projekat/src/photos/" + imeSlike + ".png");
+                if (proizvodSlika.exists()) {
+                    Image image = null;
+                    try {
+                        image = new Image(new FileInputStream(proizvodSlika));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    ivSlika.setImage(image);
+                }else{
+                    ivSlika.setImage(null);
+                }
+            }
+        });
     }
 
 
