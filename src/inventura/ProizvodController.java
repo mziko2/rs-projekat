@@ -72,7 +72,7 @@ public class ProizvodController implements Initializable {
             tfKolicinaProizvoda.getStyleClass().add("poljeIspravno");
             tfKolicinaProizvoda.setStyle("-fx-control-inner-background: greenyellow;");
         }
-        if(tfKolicinaProizvoda.getText().trim().isEmpty())
+        //if(tfKolicinaProizvoda.getText().trim().isEmpty())
         if(!collor) return;
         if(proizvod==null) proizvod = new Proizvod();
         proizvod.setNaziv(tfNazivProizvod.getText());

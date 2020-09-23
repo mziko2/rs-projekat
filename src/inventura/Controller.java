@@ -254,6 +254,7 @@ public class Controller implements Initializable {
         if(result.get()==ButtonType.OK){
             dao.obrisiMjesto(mjesto.getId());
             listMjesto.setAll(dao.mjesta());
+            listProizvod.setAll(dao.proizvodi());
         }
         setPocetnu();
     }

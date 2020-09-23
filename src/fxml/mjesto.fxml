@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<AnchorPane prefHeight="180.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="180.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/forme.css" />
     </stylesheets>
@@ -29,8 +29,8 @@
             <TextField fx:id="tfMjestoOpis" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ButtonBar prefHeight="46.0" prefWidth="127.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
               <buttons>
-                <Button fx:id="btnMjestoPotvrdi" defaultButton="true" mnemonicParsing="false" onAction="#potrdiMjesto" text="Potvrdi" />
-                  <Button fx:id="tfMjestoOdbaci" cancelButton="true" mnemonicParsing="false" onAction="#odbaciMjesto" text="Odbaci" />
+                <Button fx:id="btnMjestoPotvrdi" mnemonicParsing="false" onAction="#potrdiMjesto" text="Potvrdi" />
+                  <Button fx:id="btnMjestoOdbaci" cancelButton="true" mnemonicParsing="false" onAction="#odbaciMjesto" text="Odbaci" />
               </buttons>
             </ButtonBar>
          </children>

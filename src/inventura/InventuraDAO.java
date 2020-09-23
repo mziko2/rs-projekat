@@ -14,7 +14,7 @@ public class InventuraDAO {
     private PreparedStatement dajMjesto, dajNarudzbu, dajProizvod, obrisiMjesto, obrisiNarudzbu, obrisiProizvod,
     nadjiMjesto, nadjiNarudzbu, nadjiProizvod, dodajMjesto, dodajNarudzbu, dodajProizvod, odrediIdMjesta, odrediIdProizvoda,
     odrediIdNarudzbe, izmjeniMjesto, izmjeniProizvod, izmjeniNarudzbu, dajMjesta, dajNarudzbe, dajProizvode, dajKategorijuProizvoda,
-    dajProizvodeSortiraneDesc, dajProizvodeSortiraneAsc, dajProizvodeSortiraneDescKategorija, dajProizvodeSortiraneAscKategorija;
+    dajProizvodeSortiraneDesc, dajProizvodeSortiraneAsc, dajProizvodeSortiraneDescKategorija, dajProizvodeSortiraneAscKategorija, obrisiProizvodeAkoBrisesMjesto;
 
 
 
@@ -32,19 +32,19 @@ public class InventuraDAO {
         }
         //Test baze
         try{
-            dajNarudzbu=conn.prepareStatement("SELECT * FROM narudzba WHERE id=?");
+            dajNarudzbu=conn.prepareStatement("SELECT * FROM narudzba WHERE proizvod=?");
         }catch(SQLException e){
             regenerisiBazu();
             try{
-                dajNarudzbu=conn.prepareStatement("SELECT * FROM narudzba WHERE id=?");
+                dajNarudzbu=conn.prepareStatement("SELECT * FROM narudzba WHERE proizvod=?");
             }catch(SQLException e1){
                 e1.printStackTrace();
             }
         }
         //Upiti za bazu
         try{
-            dajMjesto=conn.prepareStatement("Select * from mjesto where id=?");
-            dajProizvod=conn.prepareStatement("Select * from proizvod where id=?");
+            dajMjesto=conn.prepareStatement("Select * from mjesto where naziv=?");
+            dajProizvod=conn.prepareStatement("Select * from proizvod where naziv=?");
 
             obrisiMjesto=conn.prepareStatement("DELETE from mjesto where id=?");
             obrisiNarudzbu=conn.prepareStatement("Delete from narudzba where id=?");
@@ -76,6 +76,8 @@ public class InventuraDAO {
             dajProizvodeSortiraneDescKategorija=conn.prepareStatement("select * from proizvod order by kategorija desc");
 
             dajKategorijuProizvoda=conn.prepareStatement("select distinct kategorija from proizvod");
+
+            obrisiProizvodeAkoBrisesMjesto=conn.prepareStatement("delete from proizvod where mjesto_id=?");
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -134,9 +136,9 @@ public class InventuraDAO {
     private Narudzba dajNarudzbuIzRs(ResultSet rs) throws  SQLException{
         return new Narudzba(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7));
     }
-    public Narudzba dajNarudzbu(int id){
+    public Narudzba dajNarudzbu(String nazivProizvoda){
         try{
-            dajNarudzbu.setInt(1,id);
+            dajNarudzbu.setString(1,nazivProizvoda);
             ResultSet rs = dajNarudzbu.executeQuery();
             if(!rs.next()) return null;
             return dajNarudzbuIzRs(rs);
@@ -148,9 +150,9 @@ public class InventuraDAO {
     private Mjesto dajMjestoIzRs(ResultSet rs) throws SQLException {
         return new Mjesto(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
     }
-    public Mjesto dajMjesto(int id){
+    public Mjesto dajMjesto(String nazivMjesta){
         try{
-            dajMjesto.setInt(1,id);
+            dajMjesto.setString(1,nazivMjesta);
             ResultSet rs = dajMjesto.executeQuery();
             if(!rs.next()) return null;
             return dajMjestoIzRs(rs);
@@ -162,9 +164,9 @@ public class InventuraDAO {
     private Proizvod dajProizvodIzRs(ResultSet rs) throws SQLException{
         return new Proizvod(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7));
     }
-    public Proizvod dajProizvod(int id){
+    public Proizvod dajProizvod(String nazivProizvoda){
         try{
-            dajProizvod.setInt(1,id);
+            dajProizvod.setString(1,nazivProizvoda);
             ResultSet rs=dajProizvod.executeQuery();
             if(!rs.next()) return null;
             return dajProizvodIzRs(rs);
@@ -179,6 +181,9 @@ public class InventuraDAO {
             ResultSet rs = nadjiMjesto.executeQuery();
             if(!rs.next()) return;
             Mjesto mjesto = dajMjestoIzRs(rs);
+            obrisiProizvodeAkoBrisesMjesto.setInt(1,mjesto.getId());
+            obrisiProizvodeAkoBrisesMjesto.executeUpdate();
+
             obrisiMjesto.setInt(1,mjesto.getId());
             obrisiMjesto.executeUpdate();
         }catch(SQLException e){
@@ -296,7 +301,7 @@ public class InventuraDAO {
             izmjeniProizvod.setString(4,proizvod.getMjesto());
             izmjeniProizvod.setInt(5,proizvod.getMjesto_id());
             izmjeniProizvod.setInt(6,proizvod.getKolicina_proizvoda());
-            izmjeniProizvod.setInt(6,proizvod.getId());
+            izmjeniProizvod.setInt(7,proizvod.getId());
             izmjeniProizvod.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -433,6 +438,7 @@ public class InventuraDAO {
         }
         return proizvodi;
     }
+
 
 
 

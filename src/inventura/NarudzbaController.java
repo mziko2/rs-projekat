@@ -81,9 +81,6 @@ public class NarudzbaController implements Initializable {
         if(cbNarudzbaMjesto.getSelectionModel().isEmpty()){
             collor=false;
         }
-        if(dpDatumNarudzba.getValue().toString().isEmpty()){
-         collor=false;
-        }
         if(!collor) return;
 
 
