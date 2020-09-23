@@ -20,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
@@ -159,13 +158,14 @@ public class Controller implements Initializable {
     }
 
     public void dodajSlikuProizvod(ActionEvent actionEvent) throws FileNotFoundException {
+        //biramo sliku
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Učitaj sliku proizvoda");
         Stage stage = (Stage)tbProizvod.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
 
 
-        if (file == null) // Kliknuto na cancel
+        if (file == null)
             return;
         Image image = null;
         try {
@@ -174,7 +174,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-
+        //dodajemo sliku u projekat da bi je mogli učitat kasnije
         ivSlika.setImage(image);
         BufferedImage bufferedImage = null;
         String imeSlike=tbProizvod.getSelectionModel().getSelectedItem().getNaziv();
@@ -209,7 +209,7 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    setPocetnu();
+        setPocetnu();
     }
 
     public void urediProstor(ActionEvent actionEvent) {
@@ -345,7 +345,7 @@ public class Controller implements Initializable {
         setPocetnu();
     }
     public void setPocetnu(){
-
+        //postavljanje teksta na početnoj stranici
         lPocetnaTekst.setText("Trenutno imate "+dao.proizvodi().size()+" proizvoda na "+dao.mjesta().size()+" lokacije.");
         lPocetnaTekst1.setText("Do sada ste naručili "+dao.narudzbe().size() + " proizvoda.");
     }
@@ -454,12 +454,12 @@ public class Controller implements Initializable {
 
     public void actionOpenXML(ActionEvent actionEvent) {
     try{
-
+        //Biramo fajl iz kojeg zelimo ucitat xml
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Učitaj XML datoteku");
         Stage stage = (Stage)tbProizvod.getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
-        if (file == null) // Kliknuto na cancel
+        if (file == null)
             return;
 
         XMLFormat xml = new XMLFormat();
@@ -493,6 +493,7 @@ public class Controller implements Initializable {
 
     public void actionSaveXML(ActionEvent actionEvent) {
         try{
+            //Biramo gdje spremamo xml fajl
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Zapiši XML datoteku");
             Stage stage = (Stage)tbProizvod.getScene().getWindow();
@@ -512,6 +513,7 @@ public class Controller implements Initializable {
 
     public void actionSaveJSON(ActionEvent actionEvent) {
         try{
+            // biramo gdje spremamo json fajl
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Zapiši JSON datoteku");
             Stage stage = (Stage)tbProizvod.getScene().getWindow();
@@ -531,11 +533,13 @@ public class Controller implements Initializable {
     }
 
     public void actionExitApp(ActionEvent actionEvent) {
+        // izlaz iz aplikacije
         Stage stage = (Stage) tfPretragaProstor.getScene().getWindow();
         stage.close();
     }
 
     public void actionMenuAbout(ActionEvent actionEvent) {
+        //prozor koji prikazuje o aplikaciji(projektu)
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("O aplikaciji");
         alert.setHeaderText("Verzija aplikacije: 1.0.0");

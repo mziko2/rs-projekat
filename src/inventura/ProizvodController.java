@@ -73,7 +73,7 @@ public class ProizvodController implements Initializable {
             tfKolicinaProizvoda.setStyle("-fx-control-inner-background: greenyellow;");
         }
 
-
+//dodavanje proizvoda
         if(!collor) return;
         if(proizvod==null) proizvod = new Proizvod();
         proizvod.setNaziv(tfNazivProizvod.getText());
@@ -98,7 +98,7 @@ public class ProizvodController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+//postavljanje vrijednosti
         cbMjestoProizvod.setItems(listMjesto);
         cbVrstaProizvod.setItems(listKategorije);
 

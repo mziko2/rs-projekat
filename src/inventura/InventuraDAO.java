@@ -99,6 +99,7 @@ public class InventuraDAO {
 
 
     private void regenerisiBazu() {
+        //citamo ulazni fajl i tako regenerisemo bazu
         Scanner ulaz = null;
         try {
             ulaz = new Scanner(new FileInputStream("inventura.db.sql"));
@@ -126,6 +127,7 @@ public class InventuraDAO {
 
 
     public void vratiBazuNaDefault() throws SQLException {
+        //vracamo bazu na pocetne postavke
         Statement stmt = conn.createStatement();
         stmt.executeUpdate("DELETE FROM mjesto");
         stmt.executeUpdate("DELETE FROM narudzba");
@@ -134,10 +136,12 @@ public class InventuraDAO {
         regenerisiBazu();
     }
     private Narudzba dajNarudzbuIzRs(ResultSet rs) throws  SQLException{
+        //rezultat iz ResutSeta smjestamo u novu klasu koju vracamo radi jednostavnosti
         return new Narudzba(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7));
     }
     public Narudzba dajNarudzbu(String nazivProizvoda){
         try{
+            //upit preko kojeg dobijamo narudzbu iz baze
             dajNarudzbu.setString(1,nazivProizvoda);
             ResultSet rs = dajNarudzbu.executeQuery();
             if(!rs.next()) return null;
@@ -148,10 +152,12 @@ public class InventuraDAO {
         }
     }
     private Mjesto dajMjestoIzRs(ResultSet rs) throws SQLException {
+        //rezultat iz ResutSeta smjestamo u novu klasu koju vracamo radi jednostavnosti
         return new Mjesto(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
     }
     public Mjesto dajMjesto(String nazivMjesta){
         try{
+            //upit preko kojeg dobijamo mjesto iz baze
             dajMjesto.setString(1,nazivMjesta);
             ResultSet rs = dajMjesto.executeQuery();
             if(!rs.next()) return null;
@@ -162,9 +168,11 @@ public class InventuraDAO {
         }
     }
     private Proizvod dajProizvodIzRs(ResultSet rs) throws SQLException{
+        //rezultat iz ResutSeta smjestamo u novu klasu koju vracamo radi jednostavnosti
         return new Proizvod(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(6),rs.getInt(7));
     }
     public Proizvod dajProizvod(String nazivProizvoda){
+        //upit preko kojeg dobijamo proizvod iz baze
         try{
             dajProizvod.setString(1,nazivProizvoda);
             ResultSet rs=dajProizvod.executeQuery();
@@ -178,6 +186,7 @@ public class InventuraDAO {
     }
     public void obrisiMjesto(int id){
         try{
+            //brisanje mjesta
             nadjiMjesto.setInt(1,id);
             ResultSet rs = nadjiMjesto.executeQuery();
             if(!rs.next()) return;
@@ -193,6 +202,7 @@ public class InventuraDAO {
     }
     public void obrisiProizvod(int id){
         try{
+            //brisanje proizvoda
             nadjiProizvod.setInt(1,id);
             ResultSet rs = nadjiProizvod.executeQuery();
             if(!rs.next()) return;
@@ -205,6 +215,7 @@ public class InventuraDAO {
     }
     public void obrisiNarudzbu(int id){
         try{
+            //brisanje narudzbe
             nadjiNarudzbu.setInt(1,id);
             ResultSet rs = nadjiNarudzbu.executeQuery();
             if(!rs.next()) return;
@@ -216,6 +227,7 @@ public class InventuraDAO {
         }
     }
     public void dodajMjesto(Mjesto mjesto){
+        //dodavanje mjesta u bazu
         try{
            ResultSet rs = odrediIdMjesta.executeQuery();
            int id=1;
@@ -231,6 +243,7 @@ public class InventuraDAO {
         }
     }
     public void dodajProizvod(Proizvod proizvod){
+        //dodavanje proizvoda u bazu
         try{
             ResultSet rs = odrediIdProizvoda.executeQuery();
             int id=1;
@@ -249,6 +262,7 @@ public class InventuraDAO {
         }
     }
     public void dodajNarudzbu(Narudzba narudzba){
+        //dodavanje narudzbe u bazu
         try{
             ResultSet rs = odrediIdNarudzbe.executeQuery();
             int id=1;
@@ -268,6 +282,7 @@ public class InventuraDAO {
     }
     public void izmjeniMjesto(Mjesto mjesto){
         try{
+            //izmjenjujemo trutno mjesto u bazi sa mjestom koje saljemo
             izmjeniMjesto.setString(1,mjesto.getNaziv());
             izmjeniMjesto.setString(2,mjesto.getLokacija());
             izmjeniMjesto.setString(3,mjesto.getOpis());
@@ -279,6 +294,7 @@ public class InventuraDAO {
     }
 
     public void izmjeniNarudzbu(Narudzba narudzba){
+        //izmjenjujemo narudzbu u bazi sa narudzbom koju saljemo
         try{
             izmjeniNarudzbu.setString(1,narudzba.getProizvod());
             izmjeniNarudzbu.setString(2,narudzba.getVrsta());
@@ -296,6 +312,7 @@ public class InventuraDAO {
 
     public void izmjeniProizvod(Proizvod proizvod){
         try{
+            // izmjenjujemo proizvod sa proizvodom koje saljemo
             izmjeniProizvod.setString(1,proizvod.getNaziv());
             izmjeniProizvod.setString(2,proizvod.getKategorija());
             izmjeniProizvod.setString(3,proizvod.getDatum());
@@ -310,6 +327,7 @@ public class InventuraDAO {
     }
 
     public ArrayList<Mjesto> mjesta(){
+        // dobijamo sva mjesta iz baze, smjestamo ih u jedan arraylist
         ArrayList<Mjesto> mjesta = new ArrayList<Mjesto>();
         try{
             ResultSet rs = dajMjesta.executeQuery();
@@ -324,6 +342,7 @@ public class InventuraDAO {
     }
 
     public ArrayList<Narudzba> narudzbe(){
+        // dobijamo sve narudbe iz baze i smjestamo ih u arraylist
         ArrayList<Narudzba> narudzbe = new ArrayList<Narudzba>();
         try{
             ResultSet rs = dajNarudzbu.executeQuery();
@@ -338,6 +357,7 @@ public class InventuraDAO {
     }
 
     public ArrayList<Proizvod> proizvodi(){
+        // dobijamo sve proizvode iz baze i smjestamo ih u arraylist
         ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
         try{
             ResultSet rs = dajProizvode.executeQuery();
@@ -362,6 +382,7 @@ public class InventuraDAO {
     }
 
     public ArrayList<String> dajKategorijeProizvoda(){
+        // uzimamo sve kategorije radi choice boxa
         ArrayList<String> rezultat = new ArrayList<String>();
         try{
             ResultSet rs = dajKategorijuProizvoda.executeQuery();
@@ -376,6 +397,7 @@ public class InventuraDAO {
 
 
     public void obrisiSve() {
+        // brisemo sve iz baze
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -386,7 +408,7 @@ public class InventuraDAO {
             throwables.printStackTrace();
         }
     }
-
+    //pomocne funkcije
     public ArrayList<Proizvod> proizvodiNazivAsc(){
         ArrayList<Proizvod> proizvodi = new ArrayList<Proizvod>();
         try{

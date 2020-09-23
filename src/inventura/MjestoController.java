@@ -60,6 +60,7 @@ public class MjestoController implements Initializable {
             tfMjestoNaziv.setStyle("-fx-control-inner-background: greenyellow;");
         }
         if(!collor) return;
+        //dodavanje varijabli u klasu Mjesto
         if(mjesto==null) mjesto = new Mjesto();
         mjesto.setNaziv(tfMjestoNaziv.getText());
         mjesto.setOpis(tfMjestoOpis.getText());
@@ -76,6 +77,7 @@ public class MjestoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Postavljanje varijabli
         if(mjesto!=null){
             tfMjestoNaziv.setText(mjesto.getNaziv());
             tfMjestoLokacija.setText(mjesto.getLokacija());

@@ -28,14 +28,14 @@ public class XMLFormat {
 
     public void ucitaj(File file) throws Exception {
         Document dom;
-        // Make an  instance of the DocumentBuilderFactory
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         if(file!=null)
         try {
-            // use the factory to take an instance of the document builder
+        //Ucitavanje xml fajla u program
+
             DocumentBuilder db = dbf.newDocumentBuilder();
-            // parse using the builder to get the DOM mapping of the
-            // XML file
+
             try {
                 dom = db.parse(file);
             }catch(SAXException | IOException e){
@@ -45,6 +45,7 @@ public class XMLFormat {
             dom.getDocumentElement().normalize();
             Element doc = dom.getDocumentElement();
             Element root = dom.getDocumentElement();
+            //citanje fajla i smjestanje u proizvod
             if(!root.getTagName().equals("inventura")) System.out.print("Malo ti je falilo");
             NodeList nodeList = dom.getElementsByTagName("proizvod");
             for(int i=0;i<nodeList.getLength();i++) {
@@ -60,6 +61,7 @@ public class XMLFormat {
                 proizvodi.add(pomocni);
                 pomocni= new Proizvod();
             }
+            //citanje mjesta i smjestanje u mjesto
             Mjesto pomocnoMjesto = new Mjesto();
             nodeList=dom.getElementsByTagName("mjesto");
             for(int i=0;i<nodeList.getLength();i++){
@@ -72,6 +74,7 @@ public class XMLFormat {
                 mjesta.add(pomocnoMjesto);
                 pomocnoMjesto=new Mjesto();
             }
+            //citanje narudzbe i smjestanje u narudzbe
             Narudzba pomocnaNarudzba = new Narudzba();
             nodeList=dom.getElementsByTagName("narudzba");
             for(int i=0;i<nodeList.getLength();i++){
@@ -104,17 +107,18 @@ public class XMLFormat {
         Document dom;
         Element e = null;
 
-        // instance of a DocumentBuilderFactory
+//zapisivanje xml fajla
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
-            // use factory to get an instance of document builder
+
             DocumentBuilder db = dbf.newDocumentBuilder();
-            // create instance of DOM
+
             dom = db.newDocument();
             Element rootEle = dom.createElement("inventura");
+            //zapisivanje svih proizvoda
             for(int i=0;i<proizvodi.size();i++) {
                 Element eEproizvod = dom.createElement("proizvod");
-                // create data elements and place them under root
+
                 e = dom.createElement("id");
                 e.appendChild(dom.createTextNode(String.valueOf(proizvodi.get(i).getId())));
                 eEproizvod.appendChild(e);
@@ -144,6 +148,7 @@ public class XMLFormat {
                 eEproizvod.appendChild(e);
                 rootEle.appendChild(eEproizvod);
             }
+            //zapisivanje svih mjesta
             for(int i=0;i<mjesta.size();i++){
                 Element eMjesto = dom.createElement("mjesto");
 
@@ -165,6 +170,7 @@ public class XMLFormat {
 
                 rootEle.appendChild(eMjesto);
             }
+            //zapisivanje svih narudzbi
             for(int i=0;i<narudzbe.size();i++){
                 Element eNarudzba = dom.createElement("narudzba");
 
@@ -199,6 +205,7 @@ public class XMLFormat {
             }
             dom.appendChild(rootEle);
             try {
+                //zapisivanje navedenog u fajl
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer tr = transformerFactory.newTransformer();
                 DOMSource source = new DOMSource(dom);
@@ -209,7 +216,7 @@ public class XMLFormat {
                 System.out.println(te.getMessage());
             }
         } catch (ParserConfigurationException pce) {
-            System.out.println("UsersXML: Error trying to instantiate DocumentBuilder " + pce);
+           pce.printStackTrace();
         }
     }
     private String getTextValue(String def, Element doc, String tag) {

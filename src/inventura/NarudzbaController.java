@@ -86,6 +86,7 @@ public class NarudzbaController implements Initializable {
 
 
         boolean nasao = false;
+        //postavljanje naruzbde
         if(narudzba==null) narudzba = new Narudzba();
         narudzba.setProizvod(tfProizvodNarudzba.getText());
         narudzba.setOpis(tfOpisNarudzba.getText());
@@ -100,6 +101,7 @@ public class NarudzbaController implements Initializable {
                 break;
             }
         }
+        //u slucaju da ne postoji proizvod, kreiramo novi i dodajemo ga u proizvode
             if(!nasao){
                 proizvod.setNaziv(tfProizvodNarudzba.getText());
                 proizvod.setKategorija(tfNarudzbaKategorija.getText());
@@ -123,6 +125,7 @@ public class NarudzbaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //postavljanje vrijednosti
         cbNarudzbaMjesto.setItems(listMjesto);
         vrste.addAll("Kupovina","Prodaja","Posudba");
         cbVrstaNarudzba.setItems(vrste);

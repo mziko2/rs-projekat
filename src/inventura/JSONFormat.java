@@ -19,7 +19,9 @@ public class JSONFormat {
 
     public void zapisi(File file)  {
         JSONArray jInventura = new JSONArray();
+        //zapisujemo u json fajl
         for(Proizvod proizvod : proizvodi) {
+            //smjestamo sve proizvode u jedan JSONObject koji upisujemo u JSONArray radi upisa u JSON datoteku
             JSONObject jproizvod = new JSONObject();
             jproizvod.put("naziv", proizvod.getNaziv());
             jproizvod.put("kategorija", proizvod.getKategorija());
@@ -29,6 +31,8 @@ public class JSONFormat {
             jInventura.put(jproizvod);
         }
         for(Mjesto mjesto:mjesta){
+
+            // isti princip kao i za upisivanje proizvoda
             JSONObject jmjesto = new JSONObject();
             jmjesto.put("naziv",mjesto.getNaziv());
             jmjesto.put("lokacija", mjesto.getLokacija());
@@ -37,6 +41,7 @@ public class JSONFormat {
         }
 
         for(Narudzba narudzba : narudzbe){
+            // isti princip kao i za upisivanje proizvoda
             JSONObject jnarudzba = new JSONObject();
             jnarudzba.put("proizvod", narudzba.getProizvod());
             jnarudzba.put("vrsta",narudzba.getVrsta());
@@ -45,6 +50,8 @@ public class JSONFormat {
             jInventura.put(jnarudzba);
         }
         try {
+            //upisujemo u datoteku
+
             Files.writeString(file.toPath(), jInventura.toString());
 
         } catch (IOException e) {
